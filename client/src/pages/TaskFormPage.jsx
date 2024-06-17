@@ -10,8 +10,8 @@ function TaskFormPage() {
   });
 
   return (
-    <div className="bg-gray max-w-md w-full p-10 rounded-md">
-      <form onSubmit={onSubmit}>
+    <div className="flex h-[calc(100vh-100px)] items-center justify-center">
+      <form onSubmit={onSubmit} className="bg-blue max-w-md w-full p-10 rounded-md ">
         <input
           type="text"
           placeholder="Title"
