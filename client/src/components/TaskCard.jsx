@@ -1,6 +1,9 @@
 import React from 'react'
+import { useTasks } from '../context/TasksContext';
 
 function TaskCard({ task }) {
+    const { deleteTask } = useTasks();
+
     return (
         <div key={task._id} className='bg-blue w-full p-10 rounded-md'>
             <header className='flex justify-between'>
@@ -9,7 +12,7 @@ function TaskCard({ task }) {
                 </h1>
                 <div className='flex gap-x-2 items-center'>
                     <button onClick={() => {
-                        console.log(task._id)
+                        deleteTask(task._id);
                     }}>delete</button>
                     <button>edit</button>
                 </div>
