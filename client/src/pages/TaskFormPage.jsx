@@ -3,6 +3,10 @@ import { useTasks } from "../context/TasksContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 
+import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+dayjs.extend(utc)
+
 function TaskFormPage() {
   const { register, handleSubmit, setValue } = useForm();
   const { createTask, getTask, updateTask } = useTasks();
@@ -23,16 +27,23 @@ function TaskFormPage() {
 
   const onSubmit = handleSubmit((data) => {
     if (params.id) {
-      updateTask(params.id, data)
+      updateTask(params.id, {
+        ...data,
+        date: dayjs.utc(data.date).format()
+      });
     } else {
-      createTask(data);
+      createTask({
+        ...data,
+        date: dayjs.utc(data.date).format()
+      });
     }
     navigate("/tasks");
   });
 
   return (
     <div className="flex h-[calc(100vh-100px)] items-center justify-center">
-      <form onSubmit={onSubmit} className="bg-blue max-w-md w-full p-10 rounded-md ">
+      <form onSubmit={onSubmit} className="bg-blue max-w-md w-full p-10 rounded-md">
+        <label htmlFor="title">title</label>
         <input
           type="text"
           placeholder="Title"
@@ -40,6 +51,8 @@ function TaskFormPage() {
           className="w-full bg-gray-light text-white px-4 py-2 rounded-md my-2"
           autoFocus
         />
+
+        <label htmlFor="description">description</label>
         <textarea
           rows="3"
           placeholder="Description"
@@ -48,7 +61,10 @@ function TaskFormPage() {
           autoFocus
         ></textarea>
 
-        <button className="bg-green px-4 py-1 rounded-sm">Save</button>
+        <label htmlFor="date">Date</label>
+        <input type="date" {...register("date")}></input>
+
+        <button className="bg-green px-4 py-1 rounded-md">Save</button>
       </form>
     </div>
   )
