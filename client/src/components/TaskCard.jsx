@@ -16,10 +16,11 @@ function TaskCard({ task }) {
                     {task.title}
                 </h1>
                 <div className='flex gap-x-2 items-center'>
-                    <button onClick={() => {
-                        deleteTask(task._id);
-                    }}>delete</button>
-                    <Link to={`/tasks/${task._id}`}>edit</Link>
+                    <button className='bg-red text-white px-4 py-2 rounded-sm'
+                        onClick={() => {
+                            deleteTask(task._id);
+                        }}>delete</button>
+                    <Link to={`/tasks/${task._id}`} className='bg-blue-light text-white px-4 py-2 rounded-sm'>edit</Link>
                 </div>
             </header>
             <p className='text-gray-light'>{task.description}</p>
