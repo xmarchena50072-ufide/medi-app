@@ -20,12 +20,20 @@ function TaskFormPage() {
         console.log(task)
         setValue("title", task.title);
         setValue("description", task.description);
+        setValue("date", dayjs(task.date).utc().format("YYYY-MM-DD"));
       }
     }
     loadTask();
   }, []);
 
   const onSubmit = handleSubmit((data) => {
+    const dataValid = {
+      ...data,
+      date: data.date ? dayjs.utc(data.date).format() : dayjs.utc().format(),
+    };
+
+    dataValid.date = dayjs.utc(data.date).format();
+
     if (params.id) {
       updateTask(params.id, {
         ...data,
