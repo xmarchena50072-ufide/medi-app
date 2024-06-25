@@ -6,11 +6,9 @@ function Navbar() {
 
     return (
         <nav className="bg-gray-dark my-3 flex justify-between py-5 px-10">
-            <Link to="/" onClick={() => {
-                logout();
-            }}><h1 className="text-2xl font-bold text-gray-light">
-                    Home
-                </h1></Link>
+            <Link to={isAuthenticated ? "/tasks" : "/"}><h1 className="text-2xl font-bold text-gray-light">
+                Medi-App
+            </h1></Link>
             <ul className="flex gap-x-2 text-gray-light">
                 {isAuthenticated ? (
                     <>
@@ -23,7 +21,9 @@ function Navbar() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/logout">
+                            <Link to="/logout" onClick={() => {
+                                logout();
+                            }}>
                                 Logout
                             </Link>
                         </li>
@@ -32,7 +32,7 @@ function Navbar() {
                     <>
                         <li>
                             <Link to="/login" className="bg-blue px-4 py-1 rounded-sm">
-                            Login
+                                Login
                             </Link>
                         </li>
                         <li>
