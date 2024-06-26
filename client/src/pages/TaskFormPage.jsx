@@ -1,14 +1,14 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTasks } from "../context/TasksContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
-import dayjs from "dayjs"
-import utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
 
 function TaskFormPage() {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const { createTask, getTask, updateTask } = useTasks();
   const navigate = useNavigate();
   const params = useParams();
@@ -17,10 +17,9 @@ function TaskFormPage() {
     async function loadTask() {
       if (params.id) {
         const task = await getTask(params.id);
-        console.log(task)
         setValue("title", task.title);
         setValue("description", task.description);
-        setValue("date", dayjs(task.date).utc().format("YYYY-MM-DD"));
+        setValue("date", dayjs(task.date).utc().format("YYYY-MM-DDTHH:MM"));
       }
     }
     loadTask();
@@ -35,47 +34,49 @@ function TaskFormPage() {
     dataValid.date = dayjs.utc(data.date).format();
 
     if (params.id) {
-      updateTask(params.id, {
-        ...data,
-        date: dayjs.utc(data.date).format()
-      });
+      updateTask(params.id, dataValid);
     } else {
-      createTask({
-        ...data,
-        date: dayjs.utc(data.date).format()
-      });
+      createTask(dataValid);
     }
     navigate("/tasks");
   });
 
   return (
     <div className="flex h-[calc(100vh-100px)] items-center justify-center">
-      <form onSubmit={onSubmit} className="bg-blue max-w-md w-full p-10 rounded-md">
-        <label htmlFor="title">title</label>
-        <input
-          type="text"
-          placeholder="Title"
-          {...register("title")}
-          className="w-full bg-gray-light text-white px-4 py-2 rounded-md my-2"
-          autoFocus
-        />
+      <div className="bg-gray-dark max-w-md w-full p-10 rounded-md">
+        <form onSubmit={onSubmit}>
+          <label htmlFor="title" className="block text-white text-sm font-bold mb-2">Title</label>
+          <input
+            type="text"
+            placeholder="Title"
+            {...register("title", { required: true })}
+            className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
+            autoFocus
+          />
+          {errors.title && (<p className="text-red mb-2">Title is required</p>)}
 
-        <label htmlFor="description">description</label>
-        <textarea
-          rows="3"
-          placeholder="Description"
-          {...register("description")}
-          className="w-full bg-gray-light text-white px-4 py-2 rounded-md my-2"
-          autoFocus
-        ></textarea>
+          <label htmlFor="description" className="block text-white text-sm font-bold mb-2">Description</label>
+          <textarea
+            rows="3"
+            placeholder="Description"
+            {...register("description", { required: true })}
+            className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
+          ></textarea>
+          {errors.description && (<p className="text-red mb-2">Description is required</p>)}
 
-        <label htmlFor="date">Date</label>
-        <input type="date" {...register("date")}></input>
+          <label htmlFor="date" className="block text-white text-sm font-bold mb-2">Date</label>
+          <input
+            type="datetime-local"
+            {...register("date", { required: true })}
+            className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
+          />
+          {errors.date && (<p className="text-red mb-2">Date is required</p>)}
 
-        <button className="bg-green px-4 py-1 rounded-md">Save</button>
-      </form>
+          <button className="bg-blue text-white px-4 py-2 rounded-md w-full mt-4">Save</button>
+        </form>
+      </div>
     </div>
-  )
+  );
 }
 
-export default TaskFormPage
+export default TaskFormPage;

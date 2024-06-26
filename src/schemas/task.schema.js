@@ -5,5 +5,5 @@ export const createTaskSchema = z.object({
         required_error: "Title is required",
     }),
     description: z.string(),
-    date: z.string().datetime().optional(),
+    date: z.string().datetime({ offset: true }).optional(),
 });
