@@ -4,6 +4,7 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import TasksPage from "./pages/TasksPage";
 import HomePage from "./pages/HomePage";
+import CalendarPage from "./pages/CalendarPage";
 import TaskFormPage from "./pages/TaskFormPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./ProtectedRoute";
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/add-task" element={<TaskFormPage />} />
                 <Route path="/tasks/:id" element={<TaskFormPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/calendar" element={<CalendarPage />} />
               </Route>
             </Routes>
           </main>

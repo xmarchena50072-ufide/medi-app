@@ -21,6 +21,11 @@ function Navbar() {
                             </Link>
                         </li>
                         <li>
+                            <Link to="/calendar" className="bg-blue px-4 py-1 rounded-sm">
+                                Calendar
+                            </Link>
+                        </li>
+                        <li>
                             <Link to="/logout" onClick={() => {
                                 logout();
                             }}>
