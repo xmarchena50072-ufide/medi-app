@@ -26,6 +26,11 @@ function Navbar() {
                             </Link>
                         </li>
                         <li>
+                            <Link to="/profile" className="bg-blue px-4 py-1 rounded-sm">
+                                Profile
+                            </Link>
+                        </li>
+                        <li>
                             <Link to="/logout" onClick={() => {
                                 logout();
                             }}>
