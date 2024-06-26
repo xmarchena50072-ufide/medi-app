@@ -83,7 +83,7 @@ function CalendarPage() {
                         {calendarDay.tasks.map(task => (
                             <div key={task._id} className="mt-2 p-2 bg-gray-dark rounded-md">
                                 <div className="text-sm font-semibold text-white">{task.title}</div>
-                                <div className="text-xs text-gray-light">{task.description}</div>
+                                <div className="text-xs text-gray-light">{dayjs(task.date).format('h:mm A')} - {task.description}</div>
                             </div>
                         ))}
                     </div>
