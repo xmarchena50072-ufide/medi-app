@@ -66,7 +66,7 @@ export const logout = async (req, res) => {
     return res.sendStatus(200);
 }
 
-export const profile = async (req, res) => {
+export const getProfile = async (req, res) => {
     const userFound = await User.findById(req.user.id);
     if (!userFound) return res.status(400).json({ message: "User not found" });
 
@@ -77,6 +77,26 @@ export const profile = async (req, res) => {
         createdAt: userFound.createdAt,
         updatedAt: userFound.updatedAt
     });
+};
+
+export const updateProfile = async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.user.id, req.body, {
+            new: true,
+        });
+
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        res.json({
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 export const verifyToken = async (req, res) => {
