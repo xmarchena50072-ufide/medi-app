@@ -21,6 +21,11 @@ function Navbar() {
                             </Link>
                         </li>
                         <li>
+                            <Link to="/add-records" className="bg-blue px-4 py-1 rounded-sm">
+                                Add Medical Records
+                            </Link>
+                        </li>
+                        <li>
                             <Link to="/calendar" className="bg-blue px-4 py-1 rounded-sm">
                                 Calendar
                             </Link>
@@ -28,6 +33,11 @@ function Navbar() {
                         <li>
                             <Link to="/profile" className="bg-blue px-4 py-1 rounded-sm">
                                 Profile
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/records" className="bg-blue px-4 py-1 rounded-sm">
+                                Medical Records
                             </Link>
                         </li>
                         <li>

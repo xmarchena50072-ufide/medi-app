@@ -11,30 +11,38 @@ import ProfileFormPage from "./pages/ProfileFormPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { TaskProvider } from "./context/TasksContext";
 import Navbar from "./components/Navbar";
+import { RecordsProvider } from "./context/RecordsContext";
+import RecordsPage from "./pages/RecordsPage";
+import RecordFormPage from "./pages/RecordFormPage";
 
 function App() {
   return (
     <AuthProvider>
       <TaskProvider>
-        <BrowserRouter>
-          <main className="container mx-auto px-10">
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+        <RecordsProvider>
+          <BrowserRouter>
+            <main className="container mx-auto px-10">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
 
-              <Route element={<ProtectedRoute />}>
-                <Route path="/tasks" element={<TasksPage />} />
-                <Route path="/add-task" element={<TaskFormPage />} />
-                <Route path="/tasks/:id" element={<TaskFormPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/profile/:id" element={<ProfileFormPage />} />
-                <Route path="/calendar" element={<CalendarPage />} />
-              </Route>
-            </Routes>
-          </main>
-        </BrowserRouter>
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/tasks" element={<TasksPage />} />
+                  <Route path="/add-task" element={<TaskFormPage />} />
+                  <Route path="/tasks/:id" element={<TaskFormPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/profile/:id" element={<ProfileFormPage />} />
+                  <Route path="/records" element={<RecordsPage />} />
+                  <Route path="/add-records" element={<RecordFormPage />} />
+                  <Route path="/records/:id" element={<RecordFormPage />} />
+                  <Route path="/calendar" element={<CalendarPage />} />
+                </Route>
+              </Routes>
+            </main>
+          </BrowserRouter>
+        </RecordsProvider>
       </TaskProvider>
     </AuthProvider>
   )
