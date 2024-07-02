@@ -15,6 +15,8 @@ import { RecordsProvider } from "./context/RecordsContext";
 import RecordsPage from "./pages/RecordsPage";
 import RecordFormPage from "./pages/RecordFormPage";
 import RecordsReportPage from "./pages/RecordsReportPage";
+import PrescriptionFormPage from "./pages/PrescriptionFormPage";
+import MedicalOpinionFormPage from "./pages/MedicalOpinionFormPage";
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
                   <Route path="/records" element={<RecordsPage />} />
                   <Route path="/add-records" element={<RecordFormPage />} />
                   <Route path="/reports" element={<RecordsReportPage />} />
+                  <Route path="/medical-opinion" element={<MedicalOpinionFormPage />} />
+                  <Route path="/add-prescription" element={<PrescriptionFormPage />} />
                   <Route path="/records/:id" element={<RecordFormPage />} />
                   <Route path="/calendar" element={<CalendarPage />} />
                 </Route>
