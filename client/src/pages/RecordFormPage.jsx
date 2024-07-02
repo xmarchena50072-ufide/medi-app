@@ -2,10 +2,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRecords } from "../context/RecordsContext";
 import { useNavigate, useParams } from "react-router-dom";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(utc);
 
 function RecordFormPage() {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -28,21 +24,34 @@ function RecordFormPage() {
       }
     }
     loadRecord();
-  }, []);
+  }, [params.id, setValue, getRecord]);
 
   const onSubmit = handleSubmit((data) => {
+    const formData = new FormData();
+    formData.append("patient", data.patient);
+    formData.append("doctor", data.doctor);
+    formData.append("vitalSigns[bloodPressure][systolic]", data.vitalSigns.bloodPressure.systolic);
+    formData.append("vitalSigns[bloodPressure][diastolic]", data.vitalSigns.bloodPressure.diastolic);
+    formData.append("vitalSigns[heartRate]", data.vitalSigns.heartRate);
+    formData.append("vitalSigns[oxygenSaturation]", data.vitalSigns.oxygenSaturation);
+    formData.append("vitalSigns[temperature]", data.vitalSigns.temperature);
+    formData.append("clinicalHistory", data.clinicalHistory);
+    for (const file of data.files) {
+      formData.append("files", file);
+    }
+
     if (params.id) {
-      updateRecord(params.id, data);
+      updateRecord(params.id, formData);
     } else {
-      createRecord(data);
+      createRecord(formData);
     }
     navigate("/records");
   });
 
   return (
-    <div className="flex h-[calc(100vh-100px)] items-center justify-center">
+    <div className="flex h-auto items-center justify-center">
       <div className="bg-gray-dark max-w-md w-full p-10 rounded-md">
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} encType="multipart/form-data">
           <label htmlFor="patient" className="block text-white text-sm font-bold mb-2">Patient</label>
           <input
             type="text"
@@ -115,6 +124,15 @@ function RecordFormPage() {
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           ></textarea>
           {errors.clinicalHistory && (<p className="text-red mb-2">Clinical History is required</p>)}
+
+          <label htmlFor="files" className="block text-white text-sm font-bold mb-2">Upload Files</label>
+          <input
+            type="file"
+            {...register("files", { required: true })}
+            className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
+            multiple
+          />
+          {errors.files && (<p className="text-red mb-2">At least one file is required</p>)}
 
           <button className="bg-blue text-white px-4 py-2 rounded-md w-full mt-4">Save</button>
         </form>
