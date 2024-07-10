@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useRecords } from "../context/RecordsContext";
 import RecordCard from "../components/RecordCard";
+import { CSVLink } from "react-csv";
+import Papa from "papaparse";
 
 function RecordsPage() {
   const { getRecords, records } = useRecords();
@@ -35,6 +37,28 @@ function RecordsPage() {
 
     setFilteredRecords(updatedRecords);
   }, [records, searchTerm, doctorFilter, recordTypeFilter, dateRange]);
+
+  const exportDataToCSV = () => {
+    const csvData = filteredRecords.map(record => ({
+      date: record.date,
+      patient: record.patient,
+      doctor: record.doctor,
+      recordType: record.recordType,
+      bloodPressureSystolic: record.vitalSigns.bloodPressure.systolic,
+      bloodPressureDiastolic: record.vitalSigns.bloodPressure.diastolic,
+      heartRate: record.vitalSigns.heartRate,
+    }));
+
+    const csv = Papa.unparse(csvData);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'filtered_records.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   if (records.length === 0) return <h1>No records</h1>;
 
@@ -81,6 +105,12 @@ function RecordsPage() {
           value={dateRange.end}
           onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
         />
+        <button
+          onClick={exportDataToCSV}
+          className="px-4 py-2 bg-blue text-white rounded-md"
+        >
+          Exportar
+        </button>
       </div>
 
       <div className="grid grid-cols-1 gap-2">
