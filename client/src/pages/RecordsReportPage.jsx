@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { useRecords } from "../context/RecordsContext";
 import dayjs from "dayjs";
+import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+
+const COLORS = ['#24648f', '#88C5E0', '#2EBF6E', '#FFBB28', '#FF8042'];
 
 function RecordsReportPage() {
   const { getRecords, records } = useRecords();
   const [bloodPressureData, setBloodPressureData] = useState([]);
   const [heartRateData, setHeartRateData] = useState([]);
+  const [recordTypeData, setRecordTypeData] = useState([]);
   const [graphType, setGraphType] = useState("bar");
 
   useEffect(() => {
@@ -23,8 +27,15 @@ function RecordsReportPage() {
         date: dayjs(record.date).format("YYYY-MM-DD"),
         heartRate: record.vitalSigns.heartRate,
       }));
+      const rtData = records.reduce((acc, record) => {
+        const type = record.recordType ? record.recordType.toLowerCase() : 'unknown';
+        acc[type] = (acc[type] || 0) + 1;
+        return acc;
+      }, {});
+
       setBloodPressureData(bpData);
       setHeartRateData(hrData);
+      setRecordTypeData(Object.entries(rtData).map(([name, value]) => ({ name, value })));
     }
   }, [records]);
 
@@ -140,20 +151,25 @@ function RecordsReportPage() {
           </svg>
         ) : (
           <div className="w-full h-60 bg-gray p-6 rounded-md text-white flex items-center justify-center">
-            {/* Simple Pie Chart */}
-            <svg viewBox="0 0 32 32" width="200" height="200">
-              {bloodPressureData.map((data, index) => {
-                const total = data.systolic + data.diastolic;
-                const systolicPercentage = (data.systolic / total) * 100;
-                const diastolicPercentage = (data.diastolic / total) * 100;
-                return (
-                  <g key={index}>
-                    <circle r="16" cx="16" cy="16" fill="#24648f" strokeDasharray={`${systolicPercentage} ${100 - systolicPercentage}`} strokeWidth="32" transform="rotate(-90) translate(-32)" />
-                    <circle r="16" cx="16" cy="16" fill="#88C5E0" strokeDasharray={`${diastolicPercentage} ${100 - diastolicPercentage}`} strokeWidth="32" transform={`rotate(${systolicPercentage - 90}) translate(-32)`} />
-                  </g>
-                );
-              })}
-            </svg>
+            {/* Improved Pie Chart */}
+            <PieChart width={400} height={400}>
+              <Pie
+                data={recordTypeData}
+                cx={200}
+                cy={200}
+                labelLine={false}
+                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                outerRadius={80}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {recordTypeData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
           </div>
         )}
 
