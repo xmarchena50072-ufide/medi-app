@@ -9,3 +9,5 @@ export const verifyTokenRequest = () => axios.get('/verify');
 export const getProfileRequest = () => axios.get(`/profile/${id}`);
 
 export const updateProfileRequest = (id, user) => axios.put(`/profile/${id}`, user);
+
+export const getUsersRequest = () => axios.get('/users');

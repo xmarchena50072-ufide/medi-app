@@ -73,6 +73,11 @@ function Navbar() {
               </Link>
             </li>
             <li className="bg-blue px-4 py-2 rounded-md flex items-center">
+              <Link to="/users" className="w-full h-full flex items-center justify-center">
+                <FaChartBar className="mr-2" /> Users
+              </Link>
+            </li>
+            <li className="bg-blue px-4 py-2 rounded-md flex items-center">
               <Link to="/add-prescription" className="w-full h-full flex items-center justify-center">
                 <FaPrescriptionBottle className="mr-2" /> Add Prescription
               </Link>

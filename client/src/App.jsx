@@ -17,6 +17,7 @@ import RecordFormPage from "./pages/RecordFormPage";
 import RecordsReportPage from "./pages/RecordsReportPage";
 import PrescriptionFormPage from "./pages/PrescriptionFormPage";
 import MedicalOpinionFormPage from "./pages/MedicalOpinionFormPage";
+import UsersPage from "./pages/UsersPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                   <Route path="/tasks" element={<TasksPage />} />
                   <Route path="/add-task" element={<TaskFormPage />} />
                   <Route path="/tasks/:id" element={<TaskFormPage />} />
+                  <Route path="/users" element={<UsersPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/profile/:id" element={<ProfileFormPage />} />
                   <Route path="/records" element={<RecordsPage />} />
