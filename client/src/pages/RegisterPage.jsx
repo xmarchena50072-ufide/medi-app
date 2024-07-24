@@ -33,7 +33,7 @@ function RegisterPage() {
           <input
             type="text"
             {...register("username", { required: true })}
-            className="w-full bg-gray-700 text-white px-4 py-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-white px-4 py-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Username"
           />
           {errors.username && (
@@ -42,7 +42,7 @@ function RegisterPage() {
           <input
             type="email"
             {...register("email", { required: true })}
-            className="w-full bg-gray-700 text-white px-4 py-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-white px-4 py-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Email"
           />
           {errors.email && (
@@ -51,13 +51,13 @@ function RegisterPage() {
           <input
             type="password"
             {...register("password", { required: true })}
-            className="w-full bg-gray-700 text-white px-4 py-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-white px-4 py-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Password"
           />
           {errors.password && (
             <p className="text-red-500 text-sm mb-4">Password is required</p>
           )}
-          <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300" type="submit">
+          <button className="w-full bg-blue text-white px-4 py-2 rounded-md hover:bg-blue transition duration-300" type="submit">
             Register
           </button>
         </form>
