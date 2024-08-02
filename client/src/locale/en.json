@@ -1,0 +1,18 @@
+{
+    "translation": {
+      "headerTitle": "Medi-App",
+      "addTask": "Add Task",
+      "calendar": "Calendar",
+      "medicalRecords": "Medical Records",
+      "viewRecords": "View Records",
+      "addMedicalRecords": "Add Medical Records",
+      "reports": "Reports",
+      "users": "Users",
+      "addPrescription": "Add Prescription",
+      "medicalOpinion": "Medical Opinion",
+      "profile": "Profile",
+      "logout": "Logout",
+      "login": "Login",
+      "register": "Register"
+    }
+  }

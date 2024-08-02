@@ -1,0 +1,18 @@
+{
+    "translation": {
+      "headerTitle": "App Consultorio",
+      "addTask": "Agregar Cita",
+      "calendar": "Calendario",
+      "medicalRecords": "Historial Médico",
+      "viewRecords": "View Records",
+      "addMedicalRecords": "Add Medical Records",
+      "reports": "Reportes",
+      "users": "Usuarios",
+      "addPrescription": "Crear Receta",
+      "medicalOpinion": "Dictamen Médico",
+      "profile": "Perfil",
+      "logout": "Cerrar Sesión",
+      "login": "Iniciar Sesión",
+      "register": "Registro"
+    }
+  }
