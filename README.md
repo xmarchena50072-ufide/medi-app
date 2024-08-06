@@ -39,4 +39,35 @@ Medi-App es una aplicación web diseñada para gestionar citas médicas, registr
 ### Clonar el Repositorio
 ```bash
 git clone https://github.com/your-username/medi-app.git
+
 cd medi-app
+npm install
+npm run dev
+
+cd client
+npm install
+npm run dev
+```
+
+### Estructura del Proyecto
+La estructura del proyecto es la siguiente:
+```bash
+medi-app/
+│
+├── client/              # Código del frontend
+│   ├── public/          # Archivos estáticos
+│   └── src/             # Código fuente de React
+│       ├── components/  # Componentes de React
+│       ├── context/     # Context API para la gestión de estado
+│       ├── pages/       # Páginas de la aplicación
+│       ├── services/    # Servicios para llamadas a la API
+│       └── App.js       # Componente principal de la aplicación
+│
+├── controllers/         # Controladores de Express
+├── models/              # Modelos de Mongoose
+├── routes/              # Rutas de Express
+├── middleware/          # Middlewares de Express
+├── .env                 # Variables de entorno
+├── server.js            # Punto de entrada del servidor
+└── package.json         # Dependencias y scripts
+```
