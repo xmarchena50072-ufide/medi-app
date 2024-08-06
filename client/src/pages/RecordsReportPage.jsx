@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useRecords } from "../context/RecordsContext";
 import dayjs from "dayjs";
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
 const COLORS = ['#24648f', '#88C5E0', '#2EBF6E', '#FFBB28', '#FF8042'];
 
 function RecordsReportPage() {
+  const { t } = useTranslation();
   const { getRecords, records } = useRecords();
   const [bloodPressureData, setBloodPressureData] = useState([]);
   const [heartRateData, setHeartRateData] = useState([]);
@@ -41,7 +43,7 @@ function RecordsReportPage() {
 
   return (
     <div className="p-6 bg-gray-dark min-h-screen flex flex-col items-center">
-      <h1 className="text-3xl text-white font-bold mb-4">Records Report</h1>
+      <h1 className="text-3xl text-white font-bold mb-4">{t('recordsReportPage.reportTitle')}</h1>
       
       <div className="w-full max-w-4xl mb-4 flex justify-center">
         {["bar", "line", "scatter", "pie"].map(type => (
@@ -52,13 +54,13 @@ function RecordsReportPage() {
               graphType === type ? "bg-blue text-white" : "bg-gray text-white"
             }`}
           >
-            {type.charAt(0).toUpperCase() + type.slice(1)} Graph
+            {t(`recordsReportPage.${type}Graph`)}
           </button>
         ))}
       </div>
 
       <div className="w-full max-w-4xl">
-        <h2 className="text-xl text-white font-bold mb-2">Blood Pressure Over Time</h2>
+        <h2 className="text-xl text-white font-bold mb-2">{t('recordsReportPage.bloodPressureTitle')}</h2>
         {graphType === "bar" ? (
           <div className="bg-gray p-6 rounded-md text-white">
             <div className="flex justify-between">
@@ -67,20 +69,20 @@ function RecordsReportPage() {
                   <div
                     className="bg-blue h-8 mb-1"
                     style={{ height: `${data.systolic * 2}px`, width: "20px" }}
-                    title={`Systolic: ${data.systolic}`}
+                    title={`${t('recordsReportPage.systolic')}: ${data.systolic}`}
                   ></div>
                   <div
                     className="bg-blue-light h-8"
                     style={{ height: `${data.diastolic * 2}px`, width: "20px" }}
-                    title={`Diastolic: ${data.diastolic}`}
+                    title={`${t('recordsReportPage.diastolic')}: ${data.diastolic}`}
                   ></div>
                   <span className="text-xs mt-2">{data.date}</span>
                 </div>
               ))}
             </div>
             <div className="flex justify-between mt-4">
-              <span>Systolic</span>
-              <span>Diastolic</span>
+              <span>{t('recordsReportPage.systolic')}</span>
+              <span>{t('recordsReportPage.diastolic')}</span>
             </div>
           </div>
         ) : graphType === "line" ? (
@@ -92,14 +94,14 @@ function RecordsReportPage() {
                   cy={100 - data.systolic}
                   r="5"
                   fill="#24648f"
-                  title={`Systolic: ${data.systolic}`}
+                  title={`${t('recordsReportPage.systolic')}: ${data.systolic}`}
                 />
                 <circle
                   cx={(index + 1) * 30}
                   cy={100 - data.diastolic}
                   r="5"
                   fill="#88C5E0"
-                  title={`Diastolic: ${data.diastolic}`}
+                  title={`${t('recordsReportPage.diastolic')}: ${data.diastolic}`}
                 />
                 {index < bloodPressureData.length - 1 && (
                   <>
@@ -123,8 +125,8 @@ function RecordsReportPage() {
                 )}
               </g>
             ))}
-            <text x="10" y="10" fill="#FFFFFF">Blood Pressure</text>
-            <text x="10" y="50" fill="#FFFFFF" transform="rotate(-90 10,50)">Value</text>
+            <text x="10" y="10" fill="#FFFFFF">{t('recordsReportPage.bloodPressure')}</text>
+            <text x="10" y="50" fill="#FFFFFF" transform="rotate(-90 10,50)">{t('recordsReportPage.value')}</text>
           </svg>
         ) : graphType === "scatter" ? (
           <svg className="w-full h-60 bg-gray p-6 rounded-md text-white">
@@ -135,23 +137,22 @@ function RecordsReportPage() {
                   cy={100 - data.systolic}
                   r="5"
                   fill="#24648f"
-                  title={`Systolic: ${data.systolic}`}
+                  title={`${t('recordsReportPage.systolic')}: ${data.systolic}`}
                 />
                 <circle
                   cx={(index + 1) * 30}
                   cy={100 - data.diastolic}
                   r="5"
                   fill="#88C5E0"
-                  title={`Diastolic: ${data.diastolic}`}
+                  title={`${t('recordsReportPage.diastolic')}: ${data.diastolic}`}
                 />
               </g>
             ))}
-            <text x="10" y="10" fill="#FFFFFF">Blood Pressure</text>
-            <text x="10" y="50" fill="#FFFFFF" transform="rotate(-90 10,50)">Value</text>
+            <text x="10" y="10" fill="#FFFFFF">{t('recordsReportPage.bloodPressure')}</text>
+            <text x="10" y="50" fill="#FFFFFF" transform="rotate(-90 10,50)">{t('recordsReportPage.value')}</text>
           </svg>
         ) : (
           <div className="w-full h-60 bg-gray p-6 rounded-md text-white flex items-center justify-center">
-            {/* Improved Pie Chart */}
             <PieChart width={400} height={400}>
               <Pie
                 data={recordTypeData}
@@ -173,7 +174,7 @@ function RecordsReportPage() {
           </div>
         )}
 
-        <h2 className="text-xl text-white font-bold mt-8 mb-2">Heart Rate Over Time</h2>
+        <h2 className="text-xl text-white font-bold mt-8 mb-2">{t('recordsReportPage.heartRateTitle')}</h2>
         {graphType === "bar" ? (
           <div className="bg-gray p-6 rounded-md text-white">
             <div className="flex justify-between">
@@ -182,14 +183,14 @@ function RecordsReportPage() {
                   <div
                     className="bg-green h-8"
                     style={{ height: `${data.heartRate * 2}px`, width: "20px" }}
-                    title={`Heart Rate: ${data.heartRate}`}
+                    title={`${t('recordsReportPage.heartRate')}: ${data.heartRate}`}
                   ></div>
                   <span className="text-xs mt-2">{data.date}</span>
                 </div>
               ))}
             </div>
             <div className="flex justify-between mt-4">
-              <span>Heart Rate</span>
+              <span>{t('recordsReportPage.heartRate')}</span>
             </div>
           </div>
         ) : graphType === "line" ? (
@@ -201,7 +202,7 @@ function RecordsReportPage() {
                   cy={100 - data.heartRate}
                   r="5"
                   fill="#2EBF6E"
-                  title={`Heart Rate: ${data.heartRate}`}
+                  title={`${t('recordsReportPage.heartRate')}: ${data.heartRate}`}
                 />
                 {index < heartRateData.length - 1 && (
                   <line
@@ -215,8 +216,8 @@ function RecordsReportPage() {
                 )}
               </g>
             ))}
-            <text x="10" y="10" fill="#FFFFFF">Heart Rate</text>
-            <text x="10" y="50" fill="#FFFFFF" transform="rotate(-90 10,50)">BPM</text>
+            <text x="10" y="10" fill="#FFFFFF">{t('recordsReportPage.heartRate')}</text>
+            <text x="10" y="50" fill="#FFFFFF" transform="rotate(-90 10,50)">{t('recordsReportPage.bpm')}</text>
           </svg>
         ) : graphType === "scatter" ? (
           <svg className="w-full h-60 bg-gray p-6 rounded-md text-white">
@@ -227,16 +228,15 @@ function RecordsReportPage() {
                   cy={100 - data.heartRate}
                   r="5"
                   fill="#2EBF6E"
-                  title={`Heart Rate: ${data.heartRate}`}
+                  title={`${t('recordsReportPage.heartRate')}: ${data.heartRate}`}
                 />
               </g>
             ))}
-            <text x="10" y="10" fill="#FFFFFF">Heart Rate</text>
-            <text x="10" y="50" fill="#FFFFFF" transform="rotate(-90 10,50)">BPM</text>
+            <text x="10" y="10" fill="#FFFFFF">{t('recordsReportPage.heartRate')}</text>
+            <text x="10" y="50" fill="#FFFFFF" transform="rotate(-90 10,50)">{t('recordsReportPage.bpm')}</text>
           </svg>
         ) : (
           <div className="w-full h-60 bg-gray p-6 rounded-md text-white flex items-center justify-center">
-            {/* Simple Pie Chart */}
             <svg viewBox="0 0 32 32" width="200" height="200">
               {heartRateData.map((data, index) => {
                 const total = data.heartRate;

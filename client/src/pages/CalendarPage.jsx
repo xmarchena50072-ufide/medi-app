@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import isoWeek from 'dayjs/plugin/isoWeek';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import { useTasks } from "../context/TasksContext";
+import { useTranslation } from "react-i18next";
 
 dayjs.extend(isoWeek);
 dayjs.extend(advancedFormat);
@@ -11,6 +12,7 @@ function CalendarPage() {
     const { getTasks, tasks } = useTasks();
     const [currentDate, setCurrentDate] = useState(dayjs());
     const [calendar, setCalendar] = useState([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         getTasks();
@@ -55,20 +57,20 @@ function CalendarPage() {
         setCurrentDate(currentDate.subtract(1, 'year'));
     };
 
-    const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const daysOfWeek = [t("calendarPage.monday"), t("calendarPage.tuesday"), t("calendarPage.wednesday"), t("calendarPage.thursday"), t("calendarPage.friday"), t("calendarPage.saturday"), t("calendarPage.sunday")];
     const today = dayjs();
 
     return (
         <div className="p-6 bg-gray-dark min-h-screen flex flex-col items-center">
             <div className="flex justify-between items-center mb-4 w-full max-w-4xl">
                 <div>
-                    <button onClick={prevYear} className="px-4 py-2 bg-gray text-white rounded-md mr-2 hover:bg-gray-light transition">Prev Year</button>
-                    <button onClick={prevMonth} className="px-4 py-2 bg-gray text-white rounded-md hover:bg-gray-light transition">Prev Month</button>
+                    <button onClick={prevYear} className="px-4 py-2 bg-gray text-white rounded-md mr-2 hover:bg-gray-light transition">{t("calendarPage.prevYear")}</button>
+                    <button onClick={prevMonth} className="px-4 py-2 bg-gray text-white rounded-md hover:bg-gray-light transition">{t("calendarPage.prevMonth")}</button>
                 </div>
                 <h1 className="text-3xl text-white font-bold">{currentDate.format("MMMM YYYY")}</h1>
                 <div>
-                    <button onClick={nextMonth} className="px-4 py-2 bg-gray text-white rounded-md hover:bg-gray-light transition">Next Month</button>
-                    <button onClick={nextYear} className="px-4 py-2 bg-gray text-white rounded-md ml-2 hover:bg-gray-light transition">Next Year</button>
+                    <button onClick={nextMonth} className="px-4 py-2 bg-gray text-white rounded-md hover:bg-gray-light transition">{t("calendarPage.nextMonth")}</button>
+                    <button onClick={nextYear} className="px-4 py-2 bg-gray text-white rounded-md ml-2 hover:bg-gray-light transition">{t("calendarPage.nextYear")}</button>
                 </div>
             </div>
             <div className="grid grid-cols-7 gap-2 w-full max-w-4xl">

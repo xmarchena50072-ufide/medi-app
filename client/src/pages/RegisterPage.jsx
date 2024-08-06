@@ -2,11 +2,13 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 function RegisterPage() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { signup, isAuthenticated, errors: registerErrors } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isAuthenticated) navigate("/tasks");
@@ -34,31 +36,31 @@ function RegisterPage() {
             type="text"
             {...register("username", { required: true })}
             className="w-full bg-white px-4 py-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Username"
+            placeholder={t('registerPage.usernamePlaceholder')}
           />
           {errors.username && (
-            <p className="text-red-500 text-sm mb-2">Username is required</p>
+            <p className="text-red-500 text-sm mb-2">{t('registerPage.usernameRequired')}</p>
           )}
           <input
             type="email"
             {...register("email", { required: true })}
             className="w-full bg-white px-4 py-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Email"
+            placeholder={t('registerPage.emailPlaceholder')}
           />
           {errors.email && (
-            <p className="text-red-500 text-sm mb-2">Email is required</p>
+            <p className="text-red-500 text-sm mb-2">{t('registerPage.emailRequired')}</p>
           )}
           <input
             type="password"
             {...register("password", { required: true })}
             className="w-full bg-white px-4 py-2 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Password"
+            placeholder={t('registerPage.passwordPlaceholder')}
           />
           {errors.password && (
-            <p className="text-red-500 text-sm mb-4">Password is required</p>
+            <p className="text-red-500 text-sm mb-4">{t('registerPage.passwordRequired')}</p>
           )}
           <button className="w-full bg-blue text-white px-4 py-2 rounded-md hover:bg-blue transition duration-300" type="submit">
-            Register
+            {t('registerPage.registerButton')}
           </button>
         </form>
       </div>
