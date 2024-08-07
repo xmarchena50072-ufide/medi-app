@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTasks } from '../context/TasksContext';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -8,6 +9,7 @@ dayjs.extend(utc);
 
 function TaskCard({ task }) {
   const { deleteTask } = useTasks();
+  const { t } = useTranslation();
 
   return (
     <div key={task._id} className="bg-gray-dark w-full p-6 rounded-md mb-4 shadow-md">
@@ -22,13 +24,13 @@ function TaskCard({ task }) {
               deleteTask(task._id);
             }}
           >
-            Delete
+            {t('taskCard.delete')}
           </button>
           <Link
             to={`/tasks/${task._id}`}
             className="bg-blue text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
           >
-            Edit
+            {t('taskCard.edit')}
           </Link>
         </div>
       </header>

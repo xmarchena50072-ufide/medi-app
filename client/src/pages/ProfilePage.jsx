@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // Importar i18n
 
 function ProfilePage() {
   const { user, getProfile, loading } = useAuth();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  const { t } = useTranslation(); // Utilizar i18n para traducción
 
   useEffect(() => {
     getProfile();
@@ -24,11 +26,11 @@ function ProfilePage() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t('profilePage.loading')}</div>;
   }
 
   if (!user) {
-    return <div>User not found</div>;
+    return <div>{t('profilePage.userNotFound')}</div>;
   }
 
   return (
@@ -48,26 +50,26 @@ function ProfilePage() {
           onClick={handleUploadClick}
           className="bg-blue text-white px-4 py-2 rounded-md mt-4 mb-6"
         >
-          Upload Profile Photo
+          {t('profilePage.uploadProfilePhoto')}
         </button>
-        <h1 className="text-3xl font-bold mb-4">Profile</h1>
+        <h1 className="text-3xl font-bold mb-4">{t('profilePage.profile')}</h1>
         <div className="mb-2 w-full">
-          <strong>Username:</strong> {user.username}
+          <strong>{t('profilePage.username')}:</strong> {user.username}
         </div>
         <div className="mb-2 w-full">
-          <strong>Email:</strong> {user.email}
+          <strong>{t('profilePage.email')}:</strong> {user.email}
         </div>
         <div className="mb-2 w-full">
-          <strong>Created At:</strong> {new Date(user.createdAt).toLocaleString()}
+          <strong>{t('profilePage.createdAt')}:</strong> {new Date(user.createdAt).toLocaleString()}
         </div>
         <div className="mb-2 w-full">
-          <strong>Updated At:</strong> {new Date(user.updatedAt).toLocaleString()}
+          <strong>{t('profilePage.updatedAt')}:</strong> {new Date(user.updatedAt).toLocaleString()}
         </div>
         <Link 
           to={`/profile/${user.id}`}
           className="bg-blue text-white px-4 py-2 rounded-md mt-4 w-full"
         >
-          Edit Profile
+          {t('profilePage.editProfile')}
         </Link>
       </div>
     </div>

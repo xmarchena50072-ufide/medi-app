@@ -3,8 +3,10 @@ import { useRecords } from "../context/RecordsContext";
 import RecordCard from "../components/RecordCard";
 import { CSVLink } from "react-csv";
 import Papa from "papaparse";
+import { useTranslation } from "react-i18next"; // Importar i18n
 
 function RecordsPage() {
+  const { t } = useTranslation(); // Utilizar i18n para traducción
   const { getRecords, records } = useRecords();
   const [searchTerm, setSearchTerm] = useState("");
   const [doctorFilter, setDoctorFilter] = useState("");
@@ -60,23 +62,23 @@ function RecordsPage() {
     document.body.removeChild(link);
   };
 
-  if (records.length === 0) return <h1>No records</h1>;
+  if (records.length === 0) return <h1>{t('recordsPage.noRecords')}</h1>;
 
   return (
     <div className="p-6 bg-gray-dark min-h-screen flex flex-col items-center">
-      <h1 className="text-3xl text-white font-bold mb-4">Historia Clinica</h1>
+      <h1 className="text-3xl text-white font-bold mb-4">{t('recordsPage.title')}</h1>
 
       <div className="w-full max-w-4xl mb-4 flex flex-col sm:flex-row justify-center gap-2">
         <input
           type="text"
-          placeholder="Search by patient or doctor..."
+          placeholder={t('recordsPage.searchPlaceholder')}
           className="px-4 py-2 rounded-md"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Filter by doctor..."
+          placeholder={t('recordsPage.filterDoctorPlaceholder')}
           className="px-4 py-2 rounded-md"
           value={doctorFilter}
           onChange={(e) => setDoctorFilter(e.target.value)}
@@ -86,21 +88,21 @@ function RecordsPage() {
           value={recordTypeFilter}
           onChange={(e) => setRecordTypeFilter(e.target.value)}
         >
-          <option value="">Filter by record type</option>
-          <option value="checkup">Checkup</option>
-          <option value="treatment">Treatment</option>
-          <option value="test">Test</option>
+          <option value="">{t('recordsPage.filterRecordTypePlaceholder')}</option>
+          <option value="checkup">{t('recordsPage.checkup')}</option>
+          <option value="treatment">{t('recordsPage.treatment')}</option>
+          <option value="test">{t('recordsPage.test')}</option>
         </select>
         <input
           type="date"
-          placeholder="Start date"
+          placeholder={t('recordsPage.startDatePlaceholder')}
           className="px-4 py-2 rounded-md"
           value={dateRange.start}
           onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
         />
         <input
           type="date"
-          placeholder="End date"
+          placeholder={t('recordsPage.endDatePlaceholder')}
           className="px-4 py-2 rounded-md"
           value={dateRange.end}
           onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
@@ -109,7 +111,7 @@ function RecordsPage() {
           onClick={exportDataToCSV}
           className="px-4 py-2 bg-blue text-white rounded-md"
         >
-          Exportar
+          {t('recordsPage.exportButton')}
         </button>
       </div>
 

@@ -2,12 +2,14 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useRecords } from "../context/RecordsContext";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // Importar i18n
 
 function RecordFormPage() {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const { createRecord, getRecord, updateRecord } = useRecords();
   const navigate = useNavigate();
   const params = useParams();
+  const { t } = useTranslation(); // Utilizar i18n para traducción
 
   useEffect(() => {
     async function loadRecord() {
@@ -52,89 +54,109 @@ function RecordFormPage() {
     <div className="flex h-auto items-center justify-center">
       <div className="bg-gray-dark max-w-md w-full p-10 rounded-md">
         <form onSubmit={onSubmit} encType="multipart/form-data">
-          <label htmlFor="patient" className="block text-white text-sm font-bold mb-2">Patient</label>
+          <label htmlFor="patient" className="block text-white text-sm font-bold mb-2">
+            {t('recordFormPage.patient')}
+          </label>
           <input
             type="text"
-            placeholder="Patient"
+            placeholder={t('recordFormPage.patientPlaceholder')}
             {...register("patient", { required: true })}
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
             autoFocus
           />
-          {errors.patient && (<p className="text-red mb-2">Patient is required</p>)}
+          {errors.patient && (<p className="text-red mb-2">{t('recordFormPage.patientRequired')}</p>)}
 
-          <label htmlFor="doctor" className="block text-white text-sm font-bold mb-2">Doctor</label>
+          <label htmlFor="doctor" className="block text-white text-sm font-bold mb-2">
+            {t('recordFormPage.doctor')}
+          </label>
           <input
             type="text"
-            placeholder="Doctor"
+            placeholder={t('recordFormPage.doctorPlaceholder')}
             {...register("doctor", { required: true })}
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
-          {errors.doctor && (<p className="text-red mb-2">Doctor is required</p>)}
+          {errors.doctor && (<p className="text-red mb-2">{t('recordFormPage.doctorRequired')}</p>)}
 
-          <label htmlFor="bloodPressureSystolic" className="block text-white text-sm font-bold mb-2">Blood Pressure Systolic</label>
+          <label htmlFor="bloodPressureSystolic" className="block text-white text-sm font-bold mb-2">
+            {t('recordFormPage.bloodPressureSystolic')}
+          </label>
           <input
             type="number"
-            placeholder="Systolic"
+            placeholder={t('recordFormPage.bloodPressureSystolicPlaceholder')}
             {...register("vitalSigns.bloodPressure.systolic", { required: true })}
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
-          {errors.vitalSigns?.bloodPressure?.systolic && (<p className="text-red mb-2">Systolic is required</p>)}
+          {errors.vitalSigns?.bloodPressure?.systolic && (<p className="text-red mb-2">{t('recordFormPage.bloodPressureSystolicRequired')}</p>)}
 
-          <label htmlFor="bloodPressureDiastolic" className="block text-white text-sm font-bold mb-2">Blood Pressure Diastolic</label>
+          <label htmlFor="bloodPressureDiastolic" className="block text-white text-sm font-bold mb-2">
+            {t('recordFormPage.bloodPressureDiastolic')}
+          </label>
           <input
             type="number"
-            placeholder="Diastolic"
+            placeholder={t('recordFormPage.bloodPressureDiastolicPlaceholder')}
             {...register("vitalSigns.bloodPressure.diastolic", { required: true })}
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
-          {errors.vitalSigns?.bloodPressure?.diastolic && (<p className="text-red mb-2">Diastolic is required</p>)}
+          {errors.vitalSigns?.bloodPressure?.diastolic && (<p className="text-red mb-2">{t('recordFormPage.bloodPressureDiastolicRequired')}</p>)}
 
-          <label htmlFor="heartRate" className="block text-white text-sm font-bold mb-2">Heart Rate</label>
+          <label htmlFor="heartRate" className="block text-white text-sm font-bold mb-2">
+            {t('recordFormPage.heartRate')}
+          </label>
           <input
             type="number"
-            placeholder="Heart Rate"
+            placeholder={t('recordFormPage.heartRatePlaceholder')}
             {...register("vitalSigns.heartRate", { required: true })}
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
-          {errors.vitalSigns?.heartRate && (<p className="text-red mb-2">Heart Rate is required</p>)}
+          {errors.vitalSigns?.heartRate && (<p className="text-red mb-2">{t('recordFormPage.heartRateRequired')}</p>)}
 
-          <label htmlFor="oxygenSaturation" className="block text-white text-sm font-bold mb-2">Oxygen Saturation</label>
+          <label htmlFor="oxygenSaturation" className="block text-white text-sm font-bold mb-2">
+            {t('recordFormPage.oxygenSaturation')}
+          </label>
           <input
             type="number"
-            placeholder="Oxygen Saturation"
+            placeholder={t('recordFormPage.oxygenSaturationPlaceholder')}
             {...register("vitalSigns.oxygenSaturation", { required: true })}
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
-          {errors.vitalSigns?.oxygenSaturation && (<p className="text-red mb-2">Oxygen Saturation is required</p>)}
+          {errors.vitalSigns?.oxygenSaturation && (<p className="text-red mb-2">{t('recordFormPage.oxygenSaturationRequired')}</p>)}
 
-          <label htmlFor="temperature" className="block text-white text-sm font-bold mb-2">Temperature</label>
+          <label htmlFor="temperature" className="block text-white text-sm font-bold mb-2">
+            {t('recordFormPage.temperature')}
+          </label>
           <input
             type="number"
-            placeholder="Temperature"
+            placeholder={t('recordFormPage.temperaturePlaceholder')}
             {...register("vitalSigns.temperature", { required: true })}
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
-          {errors.vitalSigns?.temperature && (<p className="text-red mb-2">Temperature is required</p>)}
+          {errors.vitalSigns?.temperature && (<p className="text-red mb-2">{t('recordFormPage.temperatureRequired')}</p>)}
 
-          <label htmlFor="clinicalHistory" className="block text-white text-sm font-bold mb-2">Clinical History</label>
+          <label htmlFor="clinicalHistory" className="block text-white text-sm font-bold mb-2">
+            {t('recordFormPage.clinicalHistory')}
+          </label>
           <textarea
             rows="3"
-            placeholder="Clinical History"
+            placeholder={t('recordFormPage.clinicalHistoryPlaceholder')}
             {...register("clinicalHistory", { required: true })}
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           ></textarea>
-          {errors.clinicalHistory && (<p className="text-red mb-2">Clinical History is required</p>)}
+          {errors.clinicalHistory && (<p className="text-red mb-2">{t('recordFormPage.clinicalHistoryRequired')}</p>)}
 
-          <label htmlFor="files" className="block text-white text-sm font-bold mb-2">Upload Files</label>
+          <label htmlFor="files" className="block text-white text-sm font-bold mb-2">
+            {t('recordFormPage.files')}
+          </label>
           <input
             type="file"
             {...register("files", { required: true })}
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
             multiple
           />
-          {errors.files && (<p className="text-red mb-2">At least one file is required</p>)}
+          {errors.files && (<p className="text-red mb-2">{t('recordFormPage.filesRequired')}</p>)}
 
-          <button className="bg-blue text-white px-4 py-2 rounded-md w-full mt-4">Save</button>
+          <button className="bg-blue text-white px-4 py-2 rounded-md w-full mt-4">
+            {t('recordFormPage.saveButton')}
+          </button>
         </form>
       </div>
     </div>
