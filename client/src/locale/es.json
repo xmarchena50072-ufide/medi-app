@@ -31,6 +31,8 @@
       "emailRequired": "El correo electrónico es obligatorio",
       "passwordPlaceholder": "Contraseña",
       "passwordRequired": "La contraseña es obligatoria",
+      "rolePlaceholder": "Rol del usuario",
+      "roleRequired": "El rol es obligatorio",
       "registerButton": "Registrar"
     },
     "taskFormPage": {
