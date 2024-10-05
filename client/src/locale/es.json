@@ -133,7 +133,7 @@
       "heartRate": "Frecuencia Cardíaca",
       "oxygenSaturation": "Saturación de Oxígeno",
       "temperature": "Temperatura",
-      "clinicalHistoryTitle": "Historia Clínica"
+      "clinicalHistoryTitle": "Motivo de consulta"
     },
     "taskCard": {
       "delete": "Eliminar",
