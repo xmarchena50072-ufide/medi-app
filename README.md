@@ -29,21 +29,22 @@ Medi-App es una aplicación web diseñada para gestionar citas médicas, registr
 - Gestión de Estado: React Context API
 - Peticiones API: Axios
 
-## Instalación
-
 ### Prerrequisitos
 - Node.js (v14.x o superior)
 - npm (v6.x o superior) o Yarn (v1.x o superior)
 - MongoDB
 
-### Clonar el Repositorio
+### Clonar el Repositorio y Ejecutar los programas
 ```bash
 git clone https://github.com/your-username/medi-app.git
 
-cd medi-app
+#Correr base de datos Docker + MongoDB
+
+#Ejecutar Backend
 npm install
 npm run dev
 
+##Ejecutar Frontend
 cd client
 npm install
 npm run dev
