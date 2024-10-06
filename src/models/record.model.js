@@ -24,6 +24,10 @@ const recordSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    files: {
+        type: [String],  // Aquí se almacenarán las rutas de los archivos o nombres de archivo.
+        required: true,  // Si los archivos son obligatorios.
+    },
     date: {
         type: Date,
         default: Date.now,
