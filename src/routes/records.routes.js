@@ -8,7 +8,7 @@ const router = Router();
 
 router.get('/records', authRequired, getRecords);
 router.get('/records/:id', authRequired, getRecord);
-router.post('/records', authRequired, /*validateSchema(createRecordSchema),*/ createRecord);
+router.post('/records', authRequired, validateSchema(createRecordSchema), createRecord);
 router.delete('/records/:id', authRequired, deleteRecord);
 router.put('/records/:id', authRequired, validateSchema(updateRecordSchema), updateRecord);
 

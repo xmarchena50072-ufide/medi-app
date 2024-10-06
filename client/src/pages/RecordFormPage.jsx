@@ -3,22 +3,33 @@ import { useForm } from "react-hook-form";
 import { useRecords } from "../context/RecordsContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next"; // Importar i18n
- 
+import { useAuth } from "../context/AuthContext"; // Importar el contexto de autenticación
+
 function RecordFormPage() {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const { createRecord, getRecord, updateRecord } = useRecords();
+  const { getUsers } = useAuth(); // Obtener la función getUsers del contexto de autenticación
   const navigate = useNavigate();
   const params = useParams();
   const { t } = useTranslation(); // Utilizar i18n para traducción
- 
+
   const [patients, setPatients] = useState([]);
   const [doctors, setDoctors] = useState([]);
- 
+
   useEffect(() => {
-  
-    setPatients([{ _id: "1", name: "Paciente 1" }, { _id: "2", name: "Paciente 2" }]);
-    setDoctors([{ _id: "1", name: "Doctor 1" }, { _id: "2", name: "Doctor 2" }]);
- 
+    async function fetchUsers() {
+      const fetchedUsers = await getUsers();
+
+      // Filtrar pacientes y doctores basado en un rol o propiedad
+      const patientsList = fetchedUsers.filter(user => user.role === 'patient'); // Ajusta según tu estructura de datos
+      const doctorsList = fetchedUsers.filter(user => user.role === 'doctor'); // Ajusta según tu estructura de datos
+
+      setPatients(patientsList);
+      setDoctors(doctorsList);
+    }
+
+    fetchUsers();
+
     async function loadRecord() {
       if (params.id) {
         const record = await getRecord(params.id);
@@ -33,35 +44,35 @@ function RecordFormPage() {
       }
     }
     loadRecord();
-  }, [params.id, setValue, getRecord]);
- 
-  const onSubmit = handleSubmit((data) => {
-    const formData = new FormData();
-    formData.append("patient", data.patient);
-    formData.append("doctor", data.doctor);
-    formData.append("vitalSigns[bloodPressure][systolic]", data.vitalSigns.bloodPressure.systolic);
-    formData.append("vitalSigns[bloodPressure][diastolic]", data.vitalSigns.bloodPressure.diastolic);
-    formData.append("vitalSigns[heartRate]", data.vitalSigns.heartRate);
-    formData.append("vitalSigns[oxygenSaturation]", data.vitalSigns.oxygenSaturation);
-    formData.append("vitalSigns[temperature]", data.vitalSigns.temperature);
-    formData.append("clinicalHistory", data.clinicalHistory);
-    for (const file of data.files) {
-      formData.append("files", file);
-    }
- 
+  }, [params.id, setValue, getRecord, getUsers]);
+
+  const onSubmit = handleSubmit((values) => {
+    // Manejar archivos
+    const filesArray = values.files ? Array.from(values.files) : [];
+    values.files = filesArray.map(file => file.name);
+
+    // Convertir valores de signos vitales a números
+    values.vitalSigns.bloodPressure.systolic = parseFloat(values.vitalSigns.bloodPressure.systolic);
+    values.vitalSigns.bloodPressure.diastolic = parseFloat(values.vitalSigns.bloodPressure.diastolic);
+    values.vitalSigns.heartRate = parseFloat(values.vitalSigns.heartRate);
+    values.vitalSigns.oxygenSaturation = parseFloat(values.vitalSigns.oxygenSaturation);
+    values.vitalSigns.temperature = parseFloat(values.vitalSigns.temperature);
+
+    console.log(values);
+
     if (params.id) {
-      updateRecord(params.id, formData);
+      updateRecord(params.id, values);
     } else {
-      createRecord(formData);
+      createRecord(values);
     }
+
     navigate("/records");
   });
- 
+
   return (
     <div className="flex h-auto items-center justify-center">
       <div className="bg-gray-dark max-w-md w-full p-10 rounded-md">
-        <form onSubmit={onSubmit} encType="multipart/form-data">
- 
+        <form onSubmit={onSubmit}>
           <label htmlFor="patient" className="block text-white text-sm font-bold mb-2">
             {t('recordFormPage.patient')}
           </label>
@@ -72,12 +83,12 @@ function RecordFormPage() {
             <option value="">{t('Seleccione un paciente')}</option>
             {patients.map((patient) => (
               <option key={patient._id} value={patient._id}>
-                {patient.name}
+                {patient.username}
               </option>
             ))}
           </select>
           {errors.patient && (<p className="text-red mb-2">{t('recordFormPage.patientRequired')}</p>)}
- 
+
           <label htmlFor="doctor" className="block text-white text-sm font-bold mb-2">
             {t('recordFormPage.doctor')}
           </label>
@@ -88,13 +99,13 @@ function RecordFormPage() {
             <option value="">{t('Seleccione un doctor')}</option>
             {doctors.map((doctor) => (
               <option key={doctor._id} value={doctor._id}>
-                {doctor.name}
+                {doctor.username}
               </option>
             ))}
           </select>
           {errors.doctor && (<p className="text-red mb-2">{t('recordFormPage.doctorRequired')}</p>)}
- 
-        
+
+
           <label htmlFor="bloodPressureSystolic" className="block text-white text-sm font-bold mb-2">
             {t('recordFormPage.bloodPressureSystolic')}
           </label>
@@ -105,7 +116,7 @@ function RecordFormPage() {
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
           {errors.vitalSigns?.bloodPressure?.systolic && (<p className="text-red mb-2">{t('recordFormPage.bloodPressureSystolicRequired')}</p>)}
- 
+
           <label htmlFor="bloodPressureDiastolic" className="block text-white text-sm font-bold mb-2">
             {t('recordFormPage.bloodPressureDiastolic')}
           </label>
@@ -116,8 +127,8 @@ function RecordFormPage() {
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
           {errors.vitalSigns?.bloodPressure?.diastolic && (<p className="text-red mb-2">{t('recordFormPage.bloodPressureDiastolicRequired')}</p>)}
- 
- 
+
+
           <label htmlFor="heartRate" className="block text-white text-sm font-bold mb-2">
             {t('recordFormPage.heartRate')}
           </label>
@@ -128,7 +139,7 @@ function RecordFormPage() {
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
           {errors.vitalSigns?.heartRate && (<p className="text-red mb-2">{t('recordFormPage.heartRateRequired')}</p>)}
- 
+
           <label htmlFor="oxygenSaturation" className="block text-white text-sm font-bold mb-2">
             {t('recordFormPage.oxygenSaturation')}
           </label>
@@ -139,7 +150,7 @@ function RecordFormPage() {
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
           {errors.vitalSigns?.oxygenSaturation && (<p className="text-red mb-2">{t('recordFormPage.oxygenSaturationRequired')}</p>)}
- 
+
           <label htmlFor="temperature" className="block text-white text-sm font-bold mb-2">
             {t('recordFormPage.temperature')}
           </label>
@@ -150,7 +161,7 @@ function RecordFormPage() {
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           />
           {errors.vitalSigns?.temperature && (<p className="text-red mb-2">{t('recordFormPage.temperatureRequired')}</p>)}
- 
+
           <label htmlFor="clinicalHistory" className="block text-white text-sm font-bold mb-2">
             {t('recordFormPage.clinicalHistory')}
           </label>
@@ -161,7 +172,7 @@ function RecordFormPage() {
             className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
           ></textarea>
           {errors.clinicalHistory && (<p className="text-red mb-2">{t('recordFormPage.clinicalHistoryRequired')}</p>)}
- 
+
           <label htmlFor="files" className="block text-white text-sm font-bold mb-2">
             {t('recordFormPage.files')}
           </label>
@@ -172,7 +183,7 @@ function RecordFormPage() {
             multiple
           />
           {errors.files && (<p className="text-red mb-2">{t('recordFormPage.filesRequired')}</p>)}
- 
+
           <button className="bg-blue text-white px-4 py-2 rounded-md w-full mt-4">
             {t('recordFormPage.saveButton')}
           </button>
@@ -181,5 +192,5 @@ function RecordFormPage() {
     </div>
   );
 }
- 
+
 export default RecordFormPage;
