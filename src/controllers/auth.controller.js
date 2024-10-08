@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { TOKEN_SECRET } from "../config.js"
 
 export const register = async (req, res) => {
-    const { email, password, username } = req.body;
+    const { email, password, username , role} = req.body;
     try {
         const userFound = await User.findOne({ email });
         if (userFound) return res.status(400).json(["the email is already in use"]);
@@ -15,7 +15,8 @@ export const register = async (req, res) => {
         const newUser = new User({
             username,
             email,
-            password: passwordHash
+            password: passwordHash,
+            role
         });
 
         const userSaved = await newUser.save();
@@ -28,7 +29,8 @@ export const register = async (req, res) => {
             username: userSaved.username,
             email: userSaved.email,
             createdAt: userSaved.createdAt,
-            updatedAt: userSaved.updatedAt
+            updatedAt: userSaved.updatedAt,
+            role: userSaved.role
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
