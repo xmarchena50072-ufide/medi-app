@@ -25,7 +25,7 @@ function LoginPage() {
           <img src="/src/assets/corazon.svg" alt={t('loginPage.logoAlt')} className="w-16 h-16" />
         </div>
         {signinErrors.length > 0 && (
-          <div className="bg-red-600 text-white p-2 mb-4 rounded-md">
+          <div className="bg-red text-white p-2 mb-4 rounded-md">
             {signinErrors.map((error, i) => (
               <div key={i}>{error}</div>
             ))}
