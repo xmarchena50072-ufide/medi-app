@@ -25,10 +25,19 @@ export const AuthProvider = ({ children }) => {
             setUser(res.data);
             setIsAuthenticated(true);
         } catch (error) {
-            console.log(error.response)
-            setErrors(error.response.data)
+            console.log(error.response);
+    
+            // Si el servidor envía errores detallados
+            if (error.response?.data?.errors) {
+                // Mapea y muestra los errores específicos en los campos
+                const detailedErrors = error.response.data.errors.map(err => `${err.field}: ${err.message}`);
+                return setErrors(detailedErrors);
+            }
+    
+            setErrors([error.response?.data?.message || "Error inesperado en el registro"]);
         }
     };
+    
 
     const signin = async (user) => {
         try {
@@ -37,12 +46,19 @@ export const AuthProvider = ({ children }) => {
             setUser(res.data);
             setIsAuthenticated(true);
         } catch (error) {
-            if (Array.isArray(error.response.data)) {
-                return setErrors(error.response.data)
+            console.log(error.response);
+    
+            // Si el servidor envía errores detallados
+            if (error.response?.data?.errors) {
+                // Mapea y muestra los errores específicos en los campos
+                const detailedErrors = error.response.data.errors.map(err => `${err.field}: ${err.message}`);
+                return setErrors(detailedErrors);
             }
-            setErrors([error.response.data.message])
+    
+            setErrors([error.response?.data?.message || "Error inesperado en el inicio de sesión"]);
         }
     };
+    
 
     const logout = () => {
         Cookies.remove("token");
