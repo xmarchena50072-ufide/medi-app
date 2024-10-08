@@ -25,7 +25,7 @@ function RegisterPage() {
           <img src="/src/assets/corazon.svg" alt="Medi-App Logo" className="w-16 h-16"/>
         </div>
         {registerErrors.length > 0 && (
-          <div className="bg-red-600 text-white p-2 mb-4 rounded-md">
+          <div className="bg-red text-white p-2 mb-4 rounded-md">
             {registerErrors.map((error, i) => (
               <div key={i}>{error}</div>
             ))}
@@ -39,7 +39,7 @@ function RegisterPage() {
             placeholder={t('registerPage.usernamePlaceholder')}
           />
           {errors.username && (
-            <p className="text-red-500 text-sm mb-2">{t('registerPage.usernameRequired')}</p>
+            <p className="text-red text-sm mb-2">{t('registerPage.usernameRequired')}</p>
           )}
           <input
             type="email"
@@ -48,7 +48,7 @@ function RegisterPage() {
             placeholder={t('registerPage.emailPlaceholder')}
           />
           {errors.email && (
-            <p className="text-red-500 text-sm mb-2">{t('registerPage.emailRequired')}</p>
+            <p className="text-red text-sm mb-2">{t('registerPage.emailRequired')}</p>
           )}
           <input
             type="password"
@@ -57,7 +57,7 @@ function RegisterPage() {
             placeholder={t('registerPage.passwordPlaceholder')}
           />
           {errors.password && (
-            <p className="text-red-500 text-sm mb-4">{t('registerPage.passwordRequired')}</p>
+            <p className="text-red text-sm mb-4">{t('registerPage.passwordRequired')}</p>
           )}
           <button className="w-full bg-blue text-white px-4 py-2 rounded-md hover:bg-blue transition duration-300" type="submit">
             {t('registerPage.registerButton')}
