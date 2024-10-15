@@ -31,6 +31,8 @@
       "emailRequired": "El correo electrónico es obligatorio",
       "passwordPlaceholder": "Contraseña",
       "passwordRequired": "La contraseña es obligatoria",
+      "rolePlaceholder": "Rol del usuario",
+      "roleRequired": "El rol es obligatorio",
       "registerButton": "Registrar"
     },
     "taskFormPage": {
@@ -135,7 +137,7 @@
       "heartRate": "Frecuencia Cardíaca",
       "oxygenSaturation": "Saturación de Oxígeno",
       "temperature": "Temperatura",
-      "clinicalHistoryTitle": "Historia Clínica"
+      "clinicalHistoryTitle": "Motivo de consulta"
     },
     "taskCard": {
       "delete": "Eliminar",
@@ -186,8 +188,8 @@
       "temperature": "Temperatura",
       "temperaturePlaceholder": "Temperatura",
       "temperatureRequired": "Temperatura es obligatoria",
-      "clinicalHistory": "Historia Clínica",
-      "clinicalHistoryPlaceholder": "Historia Clínica",
+      "clinicalHistory": "Motivo de consulta",
+      "clinicalHistoryPlaceholder": "Motivo de consulta",
       "clinicalHistoryRequired": "Historia Clínica es obligatoria",
       "files": "Subir Archivos",
       "filesRequired": "Se requiere al menos un archivo",
