@@ -4,7 +4,7 @@ import RecordCard from "../components/RecordCard";
 import { CSVLink } from "react-csv";
 import Papa from "papaparse";
 import { useTranslation } from "react-i18next"; // Importar i18n
-
+ 
 function RecordsPage() {
   const { t } = useTranslation(); // Utilizar i18n para traducción
   const { getRecords, records } = useRecords();
@@ -13,33 +13,35 @@ function RecordsPage() {
   const [recordTypeFilter, setRecordTypeFilter] = useState("");
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [filteredRecords, setFilteredRecords] = useState([]);
-
+  const [noResults, setNoResults] = useState(false); // Estado para manejar mensaje de error
+ 
   useEffect(() => {
     getRecords();
   }, []);
-
+ 
   useEffect(() => {
     let updatedRecords = records.filter(record => {
-      const matchesSearchTerm = 
+      const matchesSearchTerm =
         record.patient.toLowerCase().includes(searchTerm.toLowerCase()) ||
         record.doctor.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesDoctorFilter = 
+     
+      const matchesDoctorFilter =
         doctorFilter === "" || record.doctor.toLowerCase().includes(doctorFilter.toLowerCase());
-      
+     
       const matchesRecordTypeFilter =
         recordTypeFilter === "" || record.recordType.toLowerCase() === recordTypeFilter.toLowerCase();
-
-      const isWithinDateRange = 
+ 
+      const isWithinDateRange =
         (!dateRange.start || !dateRange.end) ||
         (new Date(record.date) >= new Date(dateRange.start) && new Date(record.date) <= new Date(dateRange.end));
-
+ 
       return matchesSearchTerm && matchesDoctorFilter && matchesRecordTypeFilter && isWithinDateRange;
     });
-
+ 
     setFilteredRecords(updatedRecords);
+    setNoResults(updatedRecords.length === 0); // Si no hay resultados, activar estado de error
   }, [records, searchTerm, doctorFilter, recordTypeFilter, dateRange]);
-
+ 
   const exportDataToCSV = () => {
     const csvData = filteredRecords.map(record => ({
       date: record.date,
@@ -50,7 +52,7 @@ function RecordsPage() {
       bloodPressureDiastolic: record.vitalSigns.bloodPressure.diastolic,
       heartRate: record.vitalSigns.heartRate,
     }));
-
+ 
     const csv = Papa.unparse(csvData);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -61,13 +63,13 @@ function RecordsPage() {
     link.click();
     document.body.removeChild(link);
   };
-
+ 
   if (records.length === 0) return <h1>{t('recordsPage.noRecords')}</h1>;
-
+ 
   return (
     <div className="p-6 bg-gray-dark min-h-screen flex flex-col items-center">
       <h1 className="text-3xl text-white font-bold mb-4">{t('recordsPage.title')}</h1>
-
+ 
       <div className="w-full max-w-4xl mb-4 flex flex-col sm:flex-row justify-center gap-2">
         <input
           type="text"
@@ -83,16 +85,6 @@ function RecordsPage() {
           value={doctorFilter}
           onChange={(e) => setDoctorFilter(e.target.value)}
         />
-        <select
-          className="px-4 py-2 rounded-md"
-          value={recordTypeFilter}
-          onChange={(e) => setRecordTypeFilter(e.target.value)}
-        >
-          <option value="">{t('recordsPage.filterRecordTypePlaceholder')}</option>
-          <option value="checkup">{t('recordsPage.checkup')}</option>
-          <option value="treatment">{t('recordsPage.treatment')}</option>
-          <option value="test">{t('recordsPage.test')}</option>
-        </select>
         <input
           type="date"
           placeholder={t('recordsPage.startDatePlaceholder')}
@@ -114,14 +106,19 @@ function RecordsPage() {
           {t('recordsPage.exportButton')}
         </button>
       </div>
-
-      <div className="grid grid-cols-1 gap-2">
-        {filteredRecords.map((record) => (
-          <RecordCard record={record} key={record._id} />
-        ))}
-      </div>
+ 
+      {noResults ? (
+        <p className="text-white">{t('recordsPage.noSearchResults')}</p>
+      ) : (
+        <div className="grid grid-cols-1 gap-2">
+          {filteredRecords.map((record) => (
+            <RecordCard record={record} key={record._id} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
-
+ 
 export default RecordsPage;
+ 
