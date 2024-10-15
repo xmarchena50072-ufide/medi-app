@@ -122,7 +122,9 @@
       "test": "Prueba",
       "startDatePlaceholder": "Fecha de inicio",
       "endDatePlaceholder": "Fecha de fin",
-      "exportButton": "Exportar"
+      "exportButton": "Exportar",
+      "noSearchResults":  "No hay resultados de búsqueda"
+
     },
     "recordCard": {
       "title": "Historia Clínica de {{patient}}",
