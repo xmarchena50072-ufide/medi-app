@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTasks } from "../context/TasksContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,11 +9,24 @@ import { useTranslation } from "react-i18next";
 dayjs.extend(utc);
 
 function TaskFormPage() {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  const { createTask, getTask, updateTask } = useTasks();
+  const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm();
+  const { createTask, getTask, updateTask, tasks } = useTasks();
   const navigate = useNavigate();
   const params = useParams();
   const { t } = useTranslation();
+  const [disabledDates, setDisabledDates] = useState([]);
+  const [isDateDisabled, setIsDateDisabled] = useState(false);
+
+  // Watch for date changes
+  const selectedDate = watch("date");
+
+  useEffect(() => {
+    // Load all task dates and set them as disabled dates
+    const formattedTaskDates = tasks.map(task =>
+      dayjs(task.date).utc().format("YYYY-MM-DDTHH:mm")
+    );
+    setDisabledDates(formattedTaskDates);
+  }, [tasks]);
 
   useEffect(() => {
     async function loadTask() {
@@ -21,19 +34,29 @@ function TaskFormPage() {
         const task = await getTask(params.id);
         setValue("title", task.title);
         setValue("description", task.description);
-        setValue("date", dayjs(task.date).utc().format("YYYY-MM-DDTHH:MM"));
+        setValue("date", dayjs(task.date).utc().format("YYYY-MM-DDTHH:mm"));
       }
     }
     loadTask();
-  }, []);
+  }, [params.id, getTask, setValue]);
+
+  // Check if selected date is disabled
+  useEffect(() => {
+    if (selectedDate) {
+      const formattedDate = dayjs.utc(selectedDate).format("YYYY-MM-DDTHH:mm");
+      setIsDateDisabled(disabledDates.includes(formattedDate));
+    }
+  }, [selectedDate, disabledDates]);
 
   const onSubmit = handleSubmit((data) => {
+    if (isDateDisabled) {
+      alert(t("taskFormPage.dateUnavailable"));
+      return;
+    }
     const dataValid = {
       ...data,
-      date: data.date ? dayjs.utc(data.date).format() : dayjs.utc().format(),
+      date: dayjs.utc(data.date).format(), // Save date in UTC format
     };
-
-    dataValid.date = dayjs.utc(data.date).format();
 
     if (params.id) {
       updateTask(params.id, dataValid);
@@ -76,11 +99,16 @@ function TaskFormPage() {
           <input
             type="datetime-local"
             {...register("date", { required: true })}
-            className="w-full bg-white text-gray-dark px-4 py-2 rounded-md mb-2"
+            className={`w-full px-4 py-2 rounded-md mb-2 ${
+              isDateDisabled ? 'bg-red-100 border-red-500' : 'bg-white text-gray-dark'
+            }`}
           />
-          {errors.date && (<p className="text-red mb-2">{t('taskFormPage.dateRequired')}</p>)}
+          {isDateDisabled && (
+            <p className="text-red mb-2">{t('taskFormPage.dateUnavailable')}</p>
+          )}
+          {errors.date && !isDateDisabled && (<p className="text-red mb-2">{t('taskFormPage.dateRequired')}</p>)}
 
-          <button className="bg-blue text-white px-4 py-2 rounded-md w-full mt-4">
+          <button className="bg-blue text-white px-4 py-2 rounded-md w-full mt-4" disabled={isDateDisabled}>
             {t('taskFormPage.saveButton')}
           </button>
         </form>
