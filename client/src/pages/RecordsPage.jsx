@@ -83,16 +83,6 @@ function RecordsPage() {
           value={doctorFilter}
           onChange={(e) => setDoctorFilter(e.target.value)}
         />
-        <select
-          className="px-4 py-2 rounded-md"
-          value={recordTypeFilter}
-          onChange={(e) => setRecordTypeFilter(e.target.value)}
-        >
-          <option value="">{t('recordsPage.filterRecordTypePlaceholder')}</option>
-          <option value="checkup">{t('recordsPage.checkup')}</option>
-          <option value="treatment">{t('recordsPage.treatment')}</option>
-          <option value="test">{t('recordsPage.test')}</option>
-        </select>
         <input
           type="date"
           placeholder={t('recordsPage.startDatePlaceholder')}
