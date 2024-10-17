@@ -44,6 +44,7 @@
       "descriptionRequired": "La descripción es obligatoria",
       "dateLabel": "Fecha",
       "dateRequired": "La fecha es obligatoria",
+      "dateUnavailable": "La fecha ya no está disponible",
       "saveButton": "Guardar"
     },
     "calendarPage": {
