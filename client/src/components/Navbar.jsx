@@ -85,11 +85,6 @@ function Navbar() {
                 <FaPrescriptionBottle className="mr-2" /> {t('navbar.addPrescription')}
               </Link>
             </li>
-            <li className="bg-blue px-4 py-2 rounded-md flex items-center">
-              <Link to="/medical-opinion" className="w-full h-full flex items-center justify-center">
-                <FaUserMd className="mr-2" /> {t('navbar.medicalOpinion')}
-              </Link>
-            </li>
             <div className="flex items-center">
               {isAuthenticated && (
                 <div className="relative flex items-center">
