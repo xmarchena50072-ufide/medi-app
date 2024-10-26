@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTasks } from "../context/TasksContext";
 import TaskCard from "../components/TaskCard";
-
 function TasksPage() {
   const { getTasks, tasks } = useTasks();
   const [searchTerm, setSearchTerm] = useState("");
