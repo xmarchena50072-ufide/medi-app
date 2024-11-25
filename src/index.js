@@ -1,0 +1,42 @@
+import React from "react";
+import ReactDOM from "react-dom/client"; // Cambiar a react-dom/client para React 18
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "assets/styles/tailwind.css";
+
+// layouts
+import Admin from "layouts/Admin.js";
+import Auth from "layouts/Auth.js";
+
+// views without layouts
+import Landing from "views/Landing.js";
+import Profile from "views/Profile.js";
+
+// AuthProvider
+import { AuthProvider } from "context/AuthContext";
+
+// Crear el root container con React 18
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(
+  <React.StrictMode>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Rutas con layouts */}
+          <Route path="/admin/*" element={<Admin />} />
+          <Route path="/auth/*" element={<Auth />} />
+
+          {/* Rutas sin layouts */}
+          <Route path="/landing" element={<Landing />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<Landing />} />
+
+          {/* Redirección para rutas no encontradas */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  </React.StrictMode>
+);
