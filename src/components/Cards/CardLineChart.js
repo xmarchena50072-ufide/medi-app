@@ -3,32 +3,32 @@ import Chart from "chart.js";
 
 export default function CardLineChart() {
   React.useEffect(() => {
-    var config = {
+    const config = {
       type: "line",
       data: {
         labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
+          "Semana 1",
+          "Semana 2",
+          "Semana 3",
+          "Semana 4",
+          "Semana 5",
+          "Semana 6",
+          "Semana 7",
         ],
         datasets: [
           {
-            label: new Date().getFullYear(),
-            backgroundColor: "#4c51bf",
-            borderColor: "#4c51bf",
-            data: [65, 78, 66, 44, 56, 67, 75],
+            label: `Consultas ${new Date().getFullYear()}`,
+            backgroundColor: "#2dce89",
+            borderColor: "#2dce89",
+            data: [50, 65, 70, 60, 80, 75, 85],
             fill: false,
           },
           {
-            label: new Date().getFullYear() - 1,
+            label: `Consultas ${new Date().getFullYear() - 1}`,
+            backgroundColor: "#5e72e4",
+            borderColor: "#5e72e4",
+            data: [45, 60, 65, 55, 70, 68, 80],
             fill: false,
-            backgroundColor: "#fff",
-            borderColor: "#fff",
-            data: [40, 68, 86, 74, 56, 60, 87],
           },
         ],
       },
@@ -37,12 +37,10 @@ export default function CardLineChart() {
         responsive: true,
         title: {
           display: false,
-          text: "Sales Charts",
-          fontColor: "white",
         },
         legend: {
           labels: {
-            fontColor: "white",
+            fontColor: "rgba(255,255,255,.7)",
           },
           align: "end",
           position: "bottom",
@@ -63,9 +61,9 @@ export default function CardLineChart() {
               },
               display: true,
               scaleLabel: {
-                display: false,
-                labelString: "Month",
-                fontColor: "white",
+                display: true,
+                labelString: "Semanas",
+                fontColor: "rgba(255,255,255,.7)",
               },
               gridLines: {
                 display: false,
@@ -85,9 +83,9 @@ export default function CardLineChart() {
               },
               display: true,
               scaleLabel: {
-                display: false,
-                labelString: "Value",
-                fontColor: "white",
+                display: true,
+                labelString: "Consultas",
+                fontColor: "rgba(255,255,255,.7)",
               },
               gridLines: {
                 borderDash: [3],
@@ -103,9 +101,10 @@ export default function CardLineChart() {
         },
       },
     };
-    var ctx = document.getElementById("line-chart").getContext("2d");
+    const ctx = document.getElementById("line-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
   }, []);
+
   return (
     <>
       <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700">
@@ -113,9 +112,11 @@ export default function CardLineChart() {
           <div className="flex flex-wrap items-center">
             <div className="relative w-full max-w-full flex-grow flex-1">
               <h6 className="uppercase text-blueGray-100 mb-1 text-xs font-semibold">
-                Overview
+                Resumen Semanal
               </h6>
-              <h2 className="text-white text-xl font-semibold">Sales value</h2>
+              <h2 className="text-white text-xl font-semibold">
+                Consultas Atendidas
+              </h2>
             </div>
           </div>
         </div>

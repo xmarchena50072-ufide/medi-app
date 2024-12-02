@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import bgImage from "../assets/img/medicobg.jpg";
 
 // components
 import Navbar from "components/Navbars/AuthNavbar.js";
@@ -14,8 +15,7 @@ export default function Landing() {
           <div
             className="absolute top-0 w-full h-full bg-center bg-cover"
             style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1579154204601-27f3b5a6775d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080')",
+              backgroundImage: `url(${bgImage})`,
             }}
           >
             <span

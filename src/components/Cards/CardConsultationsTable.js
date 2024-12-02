@@ -42,14 +42,19 @@ export default function CardConsultationsTable() {
 
   return (
     <>
-      <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
-        <div className="rounded-t bg-blueGray-800 mb-0 px-6 py-6">
-          <div className="text-center">
-            <h6 className="text-white text-xl font-bold">Consultas Registradas</h6>
+      <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
+        {/* Encabezado */}
+        <div className="rounded-t bg-white mb-0 px-6 py-6">
+          <div className="text-center flex justify-between">
+            <h6 className="text-blueGray-700 text-xl font-bold">
+              Consultas Registradas
+            </h6>
           </div>
         </div>
+
+        {/* Tabla */}
         <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-          <table className="min-w-full bg-white">
+          <table className="w-full bg-white rounded shadow">
             <thead>
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-bold text-blueGray-600 uppercase border-b border-blueGray-200">
@@ -71,7 +76,7 @@ export default function CardConsultationsTable() {
             </thead>
             <tbody>
               {consultations.map((consultation) => (
-                <tr key={consultation.id}>
+                <tr key={consultation.id} className="hover:bg-blueGray-100">
                   <td className="px-6 py-4 border-b border-blueGray-200 text-sm">
                     {consultation.patient}
                   </td>

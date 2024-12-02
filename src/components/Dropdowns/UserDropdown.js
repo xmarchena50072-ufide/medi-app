@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { createPopper } from "@popperjs/core";
 import { useAuth } from "../../context/AuthContext";
 
-
 const UserDropdown = () => {
-  // dropdown props
-  const { isAuthenticated, logout, user } = useAuth();
-  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
+  const { logout } = useAuth();
+  const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false);
+  const btnDropdownRef = useRef(null);
+  const popoverDropdownRef = useRef(null);
+
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: "bottom-start",
+      modifiers: [
+        {
+          name: "offset",
+          options: {
+            offset: [0, 10],
+          },
+        },
+        {
+          name: "preventOverflow",
+          options: {
+            boundary: "viewport", // Limita el área de despliegue
+          },
+        },
+      ],
     });
     setDropdownPopoverShow(true);
   };
+
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
   };
+
   return (
     <>
+      {/* Botón de usuario */}
       <a
         className="text-blueGray-500 block"
         href="#pablo"
@@ -32,56 +48,38 @@ const UserDropdown = () => {
         <div className="items-center flex">
           <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
             <img
-              alt="..."
+              alt="User"
               className="w-full rounded-full align-middle border-none shadow-lg"
-              src={require("assets/img/team-1-800x800.jpg").default}
+              src={"assets/img/team-1-800x800.jpg"}
+              onError={(e) => {
+                e.target.onerror = null; // Evita loops infinitos
+                e.target.src = "https://via.placeholder.com/150"; // Imagen de respaldo
+              }}
             />
           </span>
         </div>
       </a>
+
+      {/* Dropdown */}
       <div
         ref={popoverDropdownRef}
         className={
           (dropdownPopoverShow ? "block " : "hidden ") +
           "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
         }
+        style={{
+          maxWidth: "200px", // Ancho máximo fijo
+          overflowY: "auto", // Solo scroll vertical
+        }}
       >
         <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
+          href="#logout"
+          className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
+          onClick={() => {
+            logout();
+          }}
         >
-          Action
-        </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Another action
-        </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Something else here
-        </a>
-        <div className="h-0 my-2 border border-solid border-blueGray-100" />
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={() => { logout(); }}
-        >
-          Seprated link
+          Logout
         </a>
       </div>
     </>

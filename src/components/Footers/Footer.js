@@ -1,4 +1,5 @@
 import React from "react";
+import drImage from "../../assets/img/drMarlon.jpg"
 
 export default function Footer() {
   return (
@@ -24,134 +25,44 @@ export default function Footer() {
           </svg>
         </div>
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap text-center lg:text-left">
-            <div className="w-full lg:w-6/12 px-4">
-              <h4 className="text-3xl font-semibold">Let's keep in touch!</h4>
-              <h5 className="text-lg mt-0 mb-2 text-blueGray-600">
-                Find us on any of these platforms, we respond 1-2 business days.
-              </h5>
-              <div className="mt-6 lg:mb-0 mb-6">
-                <button
-                  className="bg-white text-lightBlue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                  type="button"
-                >
-                  <i className="fab fa-twitter"></i>
-                </button>
-                <button
-                  className="bg-white text-lightBlue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                  type="button"
-                >
-                  <i className="fab fa-facebook-square"></i>
-                </button>
-                <button
-                  className="bg-white text-pink-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                  type="button"
-                >
-                  <i className="fab fa-dribbble"></i>
-                </button>
-                <button
-                  className="bg-white text-blueGray-800 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                  type="button"
-                >
-                  <i className="fab fa-github"></i>
-                </button>
-              </div>
+          <div className="flex flex-wrap items-center">
+            {/* Imagen */}
+            <div className="w-full lg:w-4/12 px-4 text-center">
+              <img
+                src={drImage}// Cambia este enlace por el enlace real de la imagen
+                alt="Dr. Marlon Jiménez"
+                className="rounded-full mx-auto"
+                style={{ width: "150px", height: "150px" }}
+              />
             </div>
-            <div className="w-full lg:w-6/12 px-4">
-              <div className="flex flex-wrap items-top mb-6">
-                <div className="w-full lg:w-4/12 px-4 ml-auto">
-                  <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">
-                    Useful Links
-                  </span>
-                  <ul className="list-unstyled">
-                    <li>
-                      <a
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://www.creative-tim.com/presentation?ref=nr-footer"
-                      >
-                        About Us
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://blog.creative-tim.com?ref=nr-footer"
-                      >
-                        Blog
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://www.github.com/creativetimofficial?ref=nr-footer"
-                      >
-                        Github
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://www.creative-tim.com/bootstrap-themes/free?ref=nr-footer"
-                      >
-                        Free Products
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="w-full lg:w-4/12 px-4">
-                  <span className="block uppercase text-blueGray-500 text-sm font-semibold mb-2">
-                    Other Resources
-                  </span>
-                  <ul className="list-unstyled">
-                    <li>
-                      <a
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://github.com/creativetimofficial/notus-react/blob/main/LICENSE.md?ref=nr-footer"
-                      >
-                        MIT License
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://creative-tim.com/terms?ref=nr-footer"
-                      >
-                        Terms & Conditions
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://creative-tim.com/privacy?ref=nr-footer"
-                      >
-                        Privacy Policy
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="text-blueGray-600 hover:text-blueGray-800 font-semibold block pb-2 text-sm"
-                        href="https://creative-tim.com/contact-us?ref=nr-footer"
-                      >
-                        Contact Us
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+            {/* Información */}
+            <div className="w-full lg:w-8/12 px-4">
+              <h4 className="text-3xl font-semibold">Dr. Marlon Jiménez R.</h4>
+              <p className="text-lg mt-2 text-blueGray-600">
+                Médico General y Especialista en Medicina Estética.
+              </p>
+              <p className="text-md text-blueGray-600">
+                Hospital La Católica, Teléfono: 2246-3393
+              </p>
+              <p className="text-md text-blueGray-600">
+                Médico de Empresa - CCSS
+              </p>
+              <p className="text-md text-blueGray-600">
+                Contacto:{" "}
+                <a href="tel:+50689116033" className="text-blue-500">
+                  +506 8911-6033
+                </a>
+              </p>
+              <p className="text-md text-blueGray-600">
+                Ubicación: Guadalupe, San José, Costa Rica
+              </p>
             </div>
           </div>
           <hr className="my-6 border-blueGray-300" />
-          <div className="flex flex-wrap items-center md:justify-between justify-center">
-            <div className="w-full md:w-4/12 px-4 mx-auto text-center">
+          <div className="flex flex-wrap items-center justify-center">
+            <div className="w-full md:w-4/12 px-4 text-center">
               <div className="text-sm text-blueGray-500 font-semibold py-1">
-                Copyright © {new Date().getFullYear()} Notus React by{" "}
-                <a
-                  href="https://www.creative-tim.com?ref=nr-footer"
-                  className="text-blueGray-500 hover:text-blueGray-800"
-                >
-                  Creative Tim
-                </a>
-                .
+                © {new Date().getFullYear()} Todos los derechos reservados.
               </div>
             </div>
           </div>
