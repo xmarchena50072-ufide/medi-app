@@ -1,12 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import bgImage from "../assets/img/medicobg.jpg";
+import { createAppointment } from "../api/appointments"; // Importa la función de tu API para crear citas
 
 // components
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
 
 export default function Landing() {
+  const [form, setForm] = useState({ titulo: "", fechaHora: "", descripcion: "", email: "" });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await createAppointment(form); // Llama a la API para crear la cita
+      alert("Cita creada exitosamente.");
+      setForm({ titulo: "", fechaHora: "", descripcion: "", email: "" }); // Resetea el formulario
+    } catch (error) {
+      alert("Hubo un error al crear la cita. Por favor, inténtalo de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   return (
     <>
       <Navbar transparent />
@@ -31,7 +55,8 @@ export default function Landing() {
                     Tu salud, nuestra prioridad
                   </h1>
                   <p className="mt-4 text-lg text-blueGray-200">
-                    Brindando atención médica excepcional para ti y tu familia. Tu bienestar es nuestra misión.
+                    Brindando atención médica excepcional para ti y tu familia.
+                    Tu bienestar es nuestra misión.
                   </p>
                 </div>
               </div>
@@ -100,6 +125,80 @@ export default function Landing() {
                       Ofrecemos una amplia gama de servicios médicos para atender todas tus necesidades de salud.
                     </p>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* Sección para agregar una cita */}
+        <section className="pb-20 bg-blueGray-200 -mt-24">
+          <div className="container mx-auto px-4">
+            <div className="w-full lg:w-8/12 px-4 mx-auto">
+              <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg">
+                <div className="rounded-t bg-blueGray-100 mb-0 px-6 py-6">
+                  <h6 className="text-blueGray-700 text-xl font-bold">Agendar una Cita</h6>
+                </div>
+                <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+                  <form onSubmit={handleSubmit}>
+                    <div className="flex flex-wrap">
+                      <div className="w-full lg:w-6/12 px-4">
+                        <div className="relative w-full mb-3">
+                          <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                            Título
+                          </label>
+                          <input
+                            type="text"
+                            name="titulo"
+                            value={form.titulo}
+                            onChange={handleChange}
+                            placeholder="Título"
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="w-full lg:w-6/12 px-4">
+                        <div className="relative w-full mb-3">
+                          <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                            Fecha y Hora
+                          </label>
+                          <input
+                            type="datetime-local"
+                            name="fechaHora"
+                            value={form.fechaHora}
+                            onChange={handleChange}
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="w-full lg:w-12/12 px-4">
+                        <div className="relative w-full mb-3">
+                          <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                            Descripción
+                          </label>
+                          <textarea
+                            name="descripcion"
+                            value={form.descripcion}
+                            onChange={handleChange}
+                            placeholder="Descripción"
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            rows="4"
+                            required
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-center mt-6">
+                      <button
+                        type="submit"
+                        className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                        disabled={loading}
+                      >
+                        {loading ? "Creando..." : "Agendar Cita"}
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

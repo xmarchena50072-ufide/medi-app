@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import { createPopper } from "@popperjs/core";
-import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const UserDropdown = () => {
-  const { logout } = useAuth();
   const [dropdownPopoverShow, setDropdownPopoverShow] = useState(false);
   const btnDropdownRef = useRef(null);
   const popoverDropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const openDropdownPopover = () => {
     createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
@@ -31,6 +31,13 @@ const UserDropdown = () => {
 
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
+  };
+
+  const handleLogout = () => {
+    // Eliminar el token del localStorage
+    localStorage.removeItem("token");
+    // Redirigir al login
+    navigate("/auth/login");
   };
 
   return (
@@ -75,8 +82,9 @@ const UserDropdown = () => {
         <a
           href="#logout"
           className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          onClick={() => {
-            logout();
+          onClick={(e) => {
+            e.preventDefault();
+            handleLogout();
           }}
         >
           Logout

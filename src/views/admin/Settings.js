@@ -13,7 +13,7 @@ export default function Settings() {
           <CardSettings />
         </div>
         <div className="w-full lg:w-4/12 px-4">
-          <CardProfile />
+
         </div>
       </div>
     </>

@@ -2,12 +2,9 @@ import React from "react";
 
 // components
 
-import MapExample from "components/Maps/MapExample.js";
-import HeaderStats from "components/Headers/HeaderStats";
-import CardBarChart from "components/Cards/CardBarChart";
 import CardLineChart from "components/Cards/CardLineChart";
-import CardStats from "components/Cards/CardStats";
-import CardSocialTraffic from "components/Cards/CardSocialTraffic";
+import CardMedicalRecipe from "components/Cards/CardMedicalRecipe";
+import CardMedicalRecipesTable from "components/Cards/CardMedicalRecipesTable";
 
 export default function Maps() {
   return (
@@ -15,12 +12,12 @@ export default function Maps() {
       <div className="flex flex-wrap">
         <div className="w-full px-4">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-            <CardBarChart />
+            <CardMedicalRecipe />
           </div>
         </div>
         <div className="w-full px-4">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-            <CardLineChart />
+            <CardMedicalRecipesTable />
           </div>
         </div>
       </div>

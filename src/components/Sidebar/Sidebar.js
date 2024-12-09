@@ -168,9 +168,10 @@ export default function Sidebar() {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Reportes
+                  Recetas
                 </Link>
               </li>
+              
             </ul>
           </div>
         </div>
