@@ -7,8 +7,8 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-      user: "email",
-      pass: "pass",
+      user: "dijigo2515@gmail.com",
+      pass: "xfew mjqe xzoe cdwj",
     },
     logger: true, // Habilita los logs
     debug: true,  // Habilita la depuración
@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = async (to: string, subject: string, text: string, html?: string) => {
   try {
     const mailOptions = {
-      from: "email",
+      from: "dijigo2515@gmail.com",
       to,
       subject,
       text,
