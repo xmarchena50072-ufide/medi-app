@@ -2,10 +2,20 @@ import { Request, Response } from "express";
 import Cita, { ICita } from "../models/cita.model";
 
 // Crear una nueva cita
-export const createCita = async (req: Request, res: Response) => {
+export const createCita = async (req: Request, res: Response): Promise<void> => {
   try {
     const { titulo, fechaHora, descripcion } = req.body;
 
+    // Validar si ya existe una cita con la misma fecha y hora
+    const citaExistente = await Cita.findOne({ fechaHora });
+    if (citaExistente) {
+      res.status(400).json({
+        message: "El horario ya está ocupado. Por favor, selecciona otro horario.",
+      });
+      return;
+    }
+
+    // Crear la nueva cita
     const nuevaCita = new Cita({ titulo, fechaHora, descripcion });
     await nuevaCita.save();
 

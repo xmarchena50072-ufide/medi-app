@@ -13,6 +13,8 @@ export const createConsulta = async (req: Request, res: Response): Promise<void>
       temperatura,
       motivo,
       fecha,
+      correo,
+      cedula
     } = req.body;
 
     const nuevaConsulta = new Consulta({
@@ -25,6 +27,8 @@ export const createConsulta = async (req: Request, res: Response): Promise<void>
       temperatura,
       motivo,
       fecha,
+      correo,
+      cedula
     });
 
     await nuevaConsulta.save();

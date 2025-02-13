@@ -2,6 +2,8 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IConsulta extends Document {
   paciente: string;
+  correo: string;
+  cedula: string;
   doctor: string; // Siempre será "Marlon Jimenez"
   sistolica: number;
   diastolica: number;
@@ -15,6 +17,8 @@ export interface IConsulta extends Document {
 const ConsultaSchema: Schema = new Schema(
   {
     paciente: { type: String, required: true },
+    correo: { type: String, required: true },
+    cedula: { type: String, required: true },
     doctor: { type: String, required: true, default: "Marlon Jimenez" },
     sistolica: { type: Number, required: true },
     diastolica: { type: Number, required: true },
