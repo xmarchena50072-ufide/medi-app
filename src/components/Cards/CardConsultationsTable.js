@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getConsultations, deleteConsultation } from "../../api/consultations";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function CardConsultationsTable() {
   const [consultations, setConsultations] = useState([]);
@@ -10,7 +11,7 @@ export default function CardConsultationsTable() {
       const data = await getConsultations();
       setConsultations(data);
     } catch (error) {
-      alert("Error al obtener consultas");
+      toast.error("Error al obtener consultas");
     }
   };
 
@@ -20,9 +21,9 @@ export default function CardConsultationsTable() {
       try {
         await deleteConsultation(id);
         setConsultations(consultations.filter((consultation) => consultation._id !== id));
-        alert("Consulta eliminada exitosamente");
+        toast.success("Consulta eliminada exitosamente");
       } catch (error) {
-        alert("Error al eliminar la consulta");
+        toast.error("Error al eliminar la consulta");
       }
     }
   };
@@ -73,19 +74,12 @@ export default function CardConsultationsTable() {
                   {consultation.doctor}
                 </td>
                 <td className="px-6 py-4 border-b border-blueGray-200 text-sm">
-                  {new Date(consultation.fecha).toLocaleDateString()}
+                {consultation.fecha.slice(0, 10)}
                 </td>
                 <td className="px-6 py-4 border-b border-blueGray-200 text-sm">
                   {consultation.motivo}
                 </td>
-                <td className="px-6 py-4 border-b border-blueGray-200 text-sm text-right">
-                  <button
-                    className="bg-red-500 text-white text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
-                    onClick={() => handleDelete(consultation._id)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
+                
               </tr>
             ))}
           </tbody>

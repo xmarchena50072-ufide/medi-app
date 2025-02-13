@@ -1,7 +1,8 @@
-import React from "react";
+import  { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { loginUser } from "../../api/authv2";
+import { loginUser, getUserInfo } from "../../api/authv2";
 import { useNavigate, Link  } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -11,10 +12,15 @@ export default function Login() {
     try {
       const data = await loginUser(values);
       localStorage.setItem("token", data.token);
-      alert("Inicio de sesión exitoso");
-      navigate("/admin");
+      toast.success("Inicio de sesión exitoso");
+      const dataUser = await getUserInfo(data.token);
+      if (dataUser.user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/user/profile");
+      }
     } catch (error) {
-      alert(error.message || "Error al iniciar sesión");
+      toast.error(error.message || "Error al iniciar sesión");
     }
   });
 

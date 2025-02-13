@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import bgImage from "../assets/img/medicobg.jpg";
 import { createAppointment } from "../api/appointments"; // Importa la función de tu API para crear citas
-
+import toast, { Toaster } from "react-hot-toast";
 // components
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
@@ -21,10 +21,10 @@ export default function Landing() {
     setLoading(true);
     try {
       await createAppointment(form); // Llama a la API para crear la cita
-      alert("Cita creada exitosamente.");
+      toast.success("Cita creada exitosamente.");
       setForm({ titulo: "", fechaHora: "", descripcion: "", email: "" }); // Resetea el formulario
     } catch (error) {
-      alert("Hubo un error al crear la cita. Por favor, inténtalo de nuevo.");
+      toast.error("Esta hora se encuentra ocupada, porfavor selecciona otra");
     } finally {
       setLoading(false);
     }
@@ -175,13 +175,13 @@ export default function Landing() {
                       <div className="w-full lg:w-12/12 px-4">
                         <div className="relative w-full mb-3">
                           <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                            Descripción
+                            Informacion
                           </label>
                           <textarea
                             name="descripcion"
                             value={form.descripcion}
                             onChange={handleChange}
-                            placeholder="Descripción"
+                            placeholder="Informacion de paciente"
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             rows="4"
                             required

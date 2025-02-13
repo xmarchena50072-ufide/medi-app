@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { registerUser } from "../../api/authv2";
 import { useNavigate, Link  } from "react-router-dom";
-
+import toast, { Toaster } from "react-hot-toast";
 export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
@@ -16,10 +16,10 @@ export default function Register() {
     try {
       const data = await registerUser(values);
       localStorage.setItem("token", data.token);
-      alert("Registro exitoso");
-      navigate("/admin");
+      toast.success("Registro exitoso");
+      navigate("/login");
     } catch (error) {
-      alert(error.message || "Error al registrar");
+      toast.error(error.message || "Error al registrar");
     }
   });
 

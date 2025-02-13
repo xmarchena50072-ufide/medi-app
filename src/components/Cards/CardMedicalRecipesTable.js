@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getMedicalRecipes, deleteMedicalRecipe } from "../../api/recipes";
-
+import toast, { Toaster } from "react-hot-toast";
 export default function CardMedicalRecipesTable() {
   const [recipes, setRecipes] = useState([]);
 
@@ -10,7 +10,7 @@ export default function CardMedicalRecipesTable() {
       const data = await getMedicalRecipes();
       setRecipes(data);
     } catch (error) {
-      alert("Error al obtener recetas médicas");
+      toast.error("Error al obtener recetas médicas");
     }
   };
 
@@ -20,9 +20,9 @@ export default function CardMedicalRecipesTable() {
       try {
         await deleteMedicalRecipe(id);
         setRecipes(recipes.filter((recipe) => recipe._id !== id));
-        alert("Receta eliminada exitosamente");
+        toast.success("Receta eliminada exitosamente");
       } catch (error) {
-        alert("Error al eliminar la receta");
+        toast.error("Error al eliminar la receta");
       }
     }
   };
@@ -67,19 +67,12 @@ export default function CardMedicalRecipesTable() {
                   {recipe.paciente}
                 </td>
                 <td className="px-6 py-4 border-b border-blueGray-200 text-sm">
-                  {new Date(recipe.fecha).toLocaleDateString()}
+                  {recipe.fecha.slice(0, 10)}
                 </td>
                 <td className="px-6 py-4 border-b border-blueGray-200 text-sm">
                   {recipe.medicamentos}
                 </td>
-                <td className="px-6 py-4 border-b border-blueGray-200 text-sm text-right">
-                  <button
-                    className="bg-red-500 text-white text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
-                    onClick={() => handleDelete(recipe._id)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
+                
               </tr>
             ))}
           </tbody>

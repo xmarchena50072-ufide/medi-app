@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createAppointment } from "../../api/appointments";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function CardAppointment() {
   const [form, setForm] = useState({ titulo: "", fechaHora: "", descripcion: "" });
@@ -13,10 +14,10 @@ export default function CardAppointment() {
     e.preventDefault();
     try {
       await createAppointment(form);
-      alert("Cita creada exitosamente");
+      toast.success("Cita creada exitosamente");
       setForm({ titulo: "", fechaHora: "", descripcion: "" }); // Reset form
     } catch (error) {
-      alert("Error al crear la cita");
+      toast.error("Error al crear la cita");
     }
   };
 

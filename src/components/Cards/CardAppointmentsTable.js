@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAppointments, deleteAppointment } from "../../api/appointments";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function CardAppointmentsTable() {
   const [appointments, setAppointments] = useState([]);
@@ -9,7 +10,7 @@ export default function CardAppointmentsTable() {
       const data = await getAppointments();
       setAppointments(data);
     } catch (error) {
-      alert("Error al obtener citas");
+      toast.error("Error al obtener citas");
     }
   };
 
@@ -18,7 +19,7 @@ export default function CardAppointmentsTable() {
       await deleteAppointment(id);
       setAppointments(appointments.filter((appointment) => appointment._id !== id));
     } catch (error) {
-      alert("Error al eliminar la cita");
+      toast.error("Error al eliminar la cita");
     }
   };
 
@@ -60,15 +61,7 @@ export default function CardAppointmentsTable() {
                   {appointment.descripcion}
                 </td>
                 <td className="px-6 py-4 border-b border-blueGray-200 text-sm">
-                  {appointment.fechaHora}
-                </td>
-                <td className="px-6 py-4 border-b border-blueGray-200 text-sm text-right">
-                  <button
-                    className="bg-red-500 text-white text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
-                    onClick={() => handleDelete(appointment._id)}
-                  >
-                    Eliminar
-                  </button>
+                  {appointment.fechaHora && new Date(appointment.fechaHora).toLocaleString()}
                 </td>
               </tr>
             ))}
