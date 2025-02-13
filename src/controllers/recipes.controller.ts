@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import Recipe, { IRecipe } from "../models/recipe.model";
 import { sendEmail } from "../services/email.service";
+import { log } from "console";
 
 // Crear una receta y enviar un correo
 export const createRecipe = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { paciente, fecha, medicamentos, correo } = req.body;
-  
-      const nuevaReceta = new Recipe({ paciente, fecha, medicamentos, correo });
+      const { paciente, fecha, medicamentos, correo, cedula } = req.body;
+      log(req.body);
+      const nuevaReceta = new Recipe({ paciente, fecha, medicamentos, correo, cedula });
       await nuevaReceta.save();
   
       // Enviar correo electrónico al paciente
